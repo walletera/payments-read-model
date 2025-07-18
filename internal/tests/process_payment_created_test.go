@@ -54,9 +54,13 @@ func InitializeProcessPaymentCreatedFeature(ctx *godog.ScenarioContext) {
     ctx.Before(beforeScenarioHook)
     ctx.Given(`^a running payments-read-model$`, aRunningPaymentsReadModel)
     ctx.Given(`^a PaymentCreated event:$`, anEvent)
+    ctx.Given(`^the event is published$`, theEventIsPublished)
+    ctx.Given(`^the payments-read-model produces the following log:$`, thePaymentsRMProducesTheFollowingLog)
     ctx.When(`^the event is published$`, theEventIsPublished)
+    ctx.When(`^the same PaymentCreated event is published again$`, theSamePaymentCreatedEventIsPublishedAgain)
     ctx.Then(`^the payments-read-model produces the following log:$`, thePaymentsRMProducesTheFollowingLog)
     ctx.Then(`^the payment exist in the payments-read-model$`, thePaymentExistInThePaymentsReadModel)
+    ctx.Then(`^only one payment with the given id exists in the payments-read-model$`, onlyOnePaymentExist)
     ctx.After(afterScenarioHook)
 }
 
@@ -229,6 +233,49 @@ func thePaymentExistInThePaymentsReadModel(ctx context.Context) (context.Context
     return ctx, nil
 }
 
+func onlyOnePaymentExist(ctx context.Context) (context.Context, error) {
+    MongodbUri := "mongodb://localhost:27017/?retryWrites=true&w=majority"
+
+    // Use the SetServerAPIOptions() method to set the Stable API version to 1
+    serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+    opts := options.Client().ApplyURI(MongodbUri).SetServerAPIOptions(serverAPI)
+
+    // Create a new client and connect to the server
+    client, err := mongo.Connect(opts)
+    if err != nil {
+        panic(err)
+    }
+    defer func() {
+        if err = client.Disconnect(context.TODO()); err != nil {
+            panic(err)
+        }
+    }()
+
+    paymentCreatedEvent := paymentCreatedEventFromCtx(ctx)
+
+    coll := client.Database("payments").Collection("payments")
+
+    cursor, err := coll.Find(ctx, bson.D{{"_id", paymentCreatedEvent.Data.ID}})
+    if err != nil {
+        return ctx, fmt.Errorf("failed to find payments: %w", err)
+    }
+    defer cursor.Close(ctx)
+
+    count := 0
+    for cursor.Next(ctx) {
+        count++
+    }
+    if err := cursor.Err(); err != nil {
+        return ctx, fmt.Errorf("error iterating cursor: %w", err)
+    }
+
+    if count != 1 {
+        return ctx, fmt.Errorf("expected exactly one payment with ID %s, but found %d", paymentCreatedEvent.Data.ID, count)
+    }
+
+    return ctx, nil
+}
+
 func thePaymentsRMProducesTheFollowingLog(ctx context.Context, logMsg string) (context.Context, error) {
     logsWatcher := logsWatcherFromCtx(ctx)
     foundLogEntry := logsWatcher.WaitFor(logMsg, logsWatcherWaitForTimeout)
@@ -236,6 +283,10 @@ func thePaymentsRMProducesTheFollowingLog(ctx context.Context, logMsg string) (c
         return ctx, fmt.Errorf("didn't find expected log entry")
     }
     return ctx, nil
+}
+
+func theSamePaymentCreatedEventIsPublishedAgain(ctx context.Context) (context.Context, error) {
+    return theEventIsPublished(ctx)
 }
 
 func logsWatcherFromCtx(ctx context.Context) *slogwatcher.Watcher {
