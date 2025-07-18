@@ -3,82 +3,82 @@
 package privateapi
 
 import (
-    "time"
+	"time"
 
-    "github.com/go-faster/errors"
-    "github.com/google/uuid"
+	"github.com/go-faster/errors"
+	"github.com/google/uuid"
 )
 
 // A financial account maintained by a bank or other financial institution.
 // Ref: #/components/schemas/account
 type Account struct {
-    InstitutionName OptString `json:"institutionName"`
-    InstitutionId   OptString `json:"institutionId"`
-    Currency        Currency  `json:"currency"`
-    // Extra account details. The details depend on the accountType.
-    AccountDetails AccountAccountDetails `json:"accountDetails"`
+	InstitutionName OptString `json:"institutionName"`
+	InstitutionId   OptString `json:"institutionId"`
+	Currency        Currency  `json:"currency"`
+	// Extra account details. The details depend on the accountType.
+	AccountDetails AccountAccountDetails `json:"accountDetails"`
 }
 
 // GetInstitutionName returns the value of InstitutionName.
 func (s *Account) GetInstitutionName() OptString {
-    return s.InstitutionName
+	return s.InstitutionName
 }
 
 // GetInstitutionId returns the value of InstitutionId.
 func (s *Account) GetInstitutionId() OptString {
-    return s.InstitutionId
+	return s.InstitutionId
 }
 
 // GetCurrency returns the value of Currency.
 func (s *Account) GetCurrency() Currency {
-    return s.Currency
+	return s.Currency
 }
 
 // GetAccountDetails returns the value of AccountDetails.
 func (s *Account) GetAccountDetails() AccountAccountDetails {
-    return s.AccountDetails
+	return s.AccountDetails
 }
 
 // SetInstitutionName sets the value of InstitutionName.
 func (s *Account) SetInstitutionName(val OptString) {
-    s.InstitutionName = val
+	s.InstitutionName = val
 }
 
 // SetInstitutionId sets the value of InstitutionId.
 func (s *Account) SetInstitutionId(val OptString) {
-    s.InstitutionId = val
+	s.InstitutionId = val
 }
 
 // SetCurrency sets the value of Currency.
 func (s *Account) SetCurrency(val Currency) {
-    s.Currency = val
+	s.Currency = val
 }
 
 // SetAccountDetails sets the value of AccountDetails.
 func (s *Account) SetAccountDetails(val AccountAccountDetails) {
-    s.AccountDetails = val
+	s.AccountDetails = val
 }
 
 // Extra account details. The details depend on the accountType.
 type AccountAccountDetails struct {
-    OneOf AccountAccountDetailsSum
+	OneOf AccountAccountDetailsSum
 }
 
 // GetOneOf returns the value of OneOf.
 func (s *AccountAccountDetails) GetOneOf() AccountAccountDetailsSum {
-    return s.OneOf
+	return s.OneOf
 }
 
 // SetOneOf sets the value of OneOf.
 func (s *AccountAccountDetails) SetOneOf(val AccountAccountDetailsSum) {
-    s.OneOf = val
+	s.OneOf = val
 }
 
 // AccountAccountDetailsSum represents sum type.
 type AccountAccountDetailsSum struct {
-    Type                  AccountAccountDetailsSumType // switch on this field
-    CvuAccountDetails     CvuAccountDetails
-    DinopayAccountDetails DinopayAccountDetails
+	Type                  AccountAccountDetailsSumType // switch on this field
+	CvuAccountDetails     CvuAccountDetails
+	DinopayAccountDetails DinopayAccountDetails
 }
 
 // AccountAccountDetailsSumType is oneOf type of AccountAccountDetailsSum.
@@ -86,244 +86,244 @@ type AccountAccountDetailsSumType string
 
 // Possible values for AccountAccountDetailsSumType.
 const (
-    CvuAccountDetailsAccountAccountDetailsSum     AccountAccountDetailsSumType = "cvu"
-    DinopayAccountDetailsAccountAccountDetailsSum AccountAccountDetailsSumType = "dinopay"
+	CvuAccountDetailsAccountAccountDetailsSum     AccountAccountDetailsSumType = "cvu"
+	DinopayAccountDetailsAccountAccountDetailsSum AccountAccountDetailsSumType = "dinopay"
 )
 
 // IsCvuAccountDetails reports whether AccountAccountDetailsSum is CvuAccountDetails.
 func (s AccountAccountDetailsSum) IsCvuAccountDetails() bool {
-    return s.Type == CvuAccountDetailsAccountAccountDetailsSum
+	return s.Type == CvuAccountDetailsAccountAccountDetailsSum
 }
 
 // IsDinopayAccountDetails reports whether AccountAccountDetailsSum is DinopayAccountDetails.
 func (s AccountAccountDetailsSum) IsDinopayAccountDetails() bool {
-    return s.Type == DinopayAccountDetailsAccountAccountDetailsSum
+	return s.Type == DinopayAccountDetailsAccountAccountDetailsSum
 }
 
 // SetCvuAccountDetails sets AccountAccountDetailsSum to CvuAccountDetails.
 func (s *AccountAccountDetailsSum) SetCvuAccountDetails(v CvuAccountDetails) {
-    s.Type = CvuAccountDetailsAccountAccountDetailsSum
-    s.CvuAccountDetails = v
+	s.Type = CvuAccountDetailsAccountAccountDetailsSum
+	s.CvuAccountDetails = v
 }
 
 // GetCvuAccountDetails returns CvuAccountDetails and true boolean if AccountAccountDetailsSum is CvuAccountDetails.
 func (s AccountAccountDetailsSum) GetCvuAccountDetails() (v CvuAccountDetails, ok bool) {
-    if !s.IsCvuAccountDetails() {
-        return v, false
-    }
-    return s.CvuAccountDetails, true
+	if !s.IsCvuAccountDetails() {
+		return v, false
+	}
+	return s.CvuAccountDetails, true
 }
 
 // NewCvuAccountDetailsAccountAccountDetailsSum returns new AccountAccountDetailsSum from CvuAccountDetails.
 func NewCvuAccountDetailsAccountAccountDetailsSum(v CvuAccountDetails) AccountAccountDetailsSum {
-    var s AccountAccountDetailsSum
-    s.SetCvuAccountDetails(v)
-    return s
+	var s AccountAccountDetailsSum
+	s.SetCvuAccountDetails(v)
+	return s
 }
 
 // SetDinopayAccountDetails sets AccountAccountDetailsSum to DinopayAccountDetails.
 func (s *AccountAccountDetailsSum) SetDinopayAccountDetails(v DinopayAccountDetails) {
-    s.Type = DinopayAccountDetailsAccountAccountDetailsSum
-    s.DinopayAccountDetails = v
+	s.Type = DinopayAccountDetailsAccountAccountDetailsSum
+	s.DinopayAccountDetails = v
 }
 
 // GetDinopayAccountDetails returns DinopayAccountDetails and true boolean if AccountAccountDetailsSum is DinopayAccountDetails.
 func (s AccountAccountDetailsSum) GetDinopayAccountDetails() (v DinopayAccountDetails, ok bool) {
-    if !s.IsDinopayAccountDetails() {
-        return v, false
-    }
-    return s.DinopayAccountDetails, true
+	if !s.IsDinopayAccountDetails() {
+		return v, false
+	}
+	return s.DinopayAccountDetails, true
 }
 
 // NewDinopayAccountDetailsAccountAccountDetailsSum returns new AccountAccountDetailsSum from DinopayAccountDetails.
 func NewDinopayAccountDetailsAccountAccountDetailsSum(v DinopayAccountDetails) AccountAccountDetailsSum {
-    var s AccountAccountDetailsSum
-    s.SetDinopayAccountDetails(v)
-    return s
+	var s AccountAccountDetailsSum
+	s.SetDinopayAccountDetails(v)
+	return s
 }
 
 // Ref: #/components/schemas/aliasCvuRoutingInfo
 type AliasCvuRoutingInfo struct {
-    CvuRoutingInfoType string `json:"cvuRoutingInfoType"`
-    Alias              string `json:"alias"`
+	CvuRoutingInfoType string `json:"cvuRoutingInfoType"`
+	Alias              string `json:"alias"`
 }
 
 // GetCvuRoutingInfoType returns the value of CvuRoutingInfoType.
 func (s *AliasCvuRoutingInfo) GetCvuRoutingInfoType() string {
-    return s.CvuRoutingInfoType
+	return s.CvuRoutingInfoType
 }
 
 // GetAlias returns the value of Alias.
 func (s *AliasCvuRoutingInfo) GetAlias() string {
-    return s.Alias
+	return s.Alias
 }
 
 // SetCvuRoutingInfoType sets the value of CvuRoutingInfoType.
 func (s *AliasCvuRoutingInfo) SetCvuRoutingInfoType(val string) {
-    s.CvuRoutingInfoType = val
+	s.CvuRoutingInfoType = val
 }
 
 // SetAlias sets the value of Alias.
 func (s *AliasCvuRoutingInfo) SetAlias(val string) {
-    s.Alias = val
+	s.Alias = val
 }
 
 // Body of the error responses.
 // Ref: #/components/schemas/apiError
 type ApiError struct {
-    // A message describing the error.
-    ErrorMessage string `json:"errorMessage"`
-    // A code that identifies a specific type of error.
-    ErrorCode string `json:"errorCode"`
+	// A message describing the error.
+	ErrorMessage string `json:"errorMessage"`
+	// A code that identifies a specific type of error.
+	ErrorCode string `json:"errorCode"`
 }
 
 // GetErrorMessage returns the value of ErrorMessage.
 func (s *ApiError) GetErrorMessage() string {
-    return s.ErrorMessage
+	return s.ErrorMessage
 }
 
 // GetErrorCode returns the value of ErrorCode.
 func (s *ApiError) GetErrorCode() string {
-    return s.ErrorCode
+	return s.ErrorCode
 }
 
 // SetErrorMessage sets the value of ErrorMessage.
 func (s *ApiError) SetErrorMessage(val string) {
-    s.ErrorMessage = val
+	s.ErrorMessage = val
 }
 
 // SetErrorCode sets the value of ErrorCode.
 func (s *ApiError) SetErrorCode(val string) {
-    s.ErrorCode = val
+	s.ErrorCode = val
 }
 
 // Ref: #/components/schemas/currency
 type Currency string
 
 const (
-    CurrencyARS Currency = "ARS"
-    CurrencyUSD Currency = "USD"
-    CurrencyEUR Currency = "EUR"
-    CurrencyBRL Currency = "BRL"
-    CurrencyCLP Currency = "CLP"
-    CurrencyUYI Currency = "UYI"
+	CurrencyARS Currency = "ARS"
+	CurrencyUSD Currency = "USD"
+	CurrencyEUR Currency = "EUR"
+	CurrencyBRL Currency = "BRL"
+	CurrencyCLP Currency = "CLP"
+	CurrencyUYI Currency = "UYI"
 )
 
 // AllValues returns all Currency values.
 func (Currency) AllValues() []Currency {
-    return []Currency{
-        CurrencyARS,
-        CurrencyUSD,
-        CurrencyEUR,
-        CurrencyBRL,
-        CurrencyCLP,
-        CurrencyUYI,
-    }
+	return []Currency{
+		CurrencyARS,
+		CurrencyUSD,
+		CurrencyEUR,
+		CurrencyBRL,
+		CurrencyCLP,
+		CurrencyUYI,
+	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
 func (s Currency) MarshalText() ([]byte, error) {
-    switch s {
-    case CurrencyARS:
-        return []byte(s), nil
-    case CurrencyUSD:
-        return []byte(s), nil
-    case CurrencyEUR:
-        return []byte(s), nil
-    case CurrencyBRL:
-        return []byte(s), nil
-    case CurrencyCLP:
-        return []byte(s), nil
-    case CurrencyUYI:
-        return []byte(s), nil
-    default:
-        return nil, errors.Errorf("invalid value: %q", s)
-    }
+	switch s {
+	case CurrencyARS:
+		return []byte(s), nil
+	case CurrencyUSD:
+		return []byte(s), nil
+	case CurrencyEUR:
+		return []byte(s), nil
+	case CurrencyBRL:
+		return []byte(s), nil
+	case CurrencyCLP:
+		return []byte(s), nil
+	case CurrencyUYI:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *Currency) UnmarshalText(data []byte) error {
-    switch Currency(data) {
-    case CurrencyARS:
-        *s = CurrencyARS
-        return nil
-    case CurrencyUSD:
-        *s = CurrencyUSD
-        return nil
-    case CurrencyEUR:
-        *s = CurrencyEUR
-        return nil
-    case CurrencyBRL:
-        *s = CurrencyBRL
-        return nil
-    case CurrencyCLP:
-        *s = CurrencyCLP
-        return nil
-    case CurrencyUYI:
-        *s = CurrencyUYI
-        return nil
-    default:
-        return errors.Errorf("invalid value: %q", data)
-    }
+	switch Currency(data) {
+	case CurrencyARS:
+		*s = CurrencyARS
+		return nil
+	case CurrencyUSD:
+		*s = CurrencyUSD
+		return nil
+	case CurrencyEUR:
+		*s = CurrencyEUR
+		return nil
+	case CurrencyBRL:
+		*s = CurrencyBRL
+		return nil
+	case CurrencyCLP:
+		*s = CurrencyCLP
+		return nil
+	case CurrencyUYI:
+		*s = CurrencyUYI
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/cvuAccountDetails
 type CvuAccountDetails struct {
-    AccountType string `json:"accountType"`
-    // Account owner national identification number.
-    Cuit        OptString                    `json:"cuit"`
-    RoutingInfo CvuAccountDetailsRoutingInfo `json:"routingInfo"`
+	AccountType string `json:"accountType"`
+	// Account owner national identification number.
+	Cuit        OptString                    `json:"cuit"`
+	RoutingInfo CvuAccountDetailsRoutingInfo `json:"routingInfo"`
 }
 
 // GetAccountType returns the value of AccountType.
 func (s *CvuAccountDetails) GetAccountType() string {
-    return s.AccountType
+	return s.AccountType
 }
 
 // GetCuit returns the value of Cuit.
 func (s *CvuAccountDetails) GetCuit() OptString {
-    return s.Cuit
+	return s.Cuit
 }
 
 // GetRoutingInfo returns the value of RoutingInfo.
 func (s *CvuAccountDetails) GetRoutingInfo() CvuAccountDetailsRoutingInfo {
-    return s.RoutingInfo
+	return s.RoutingInfo
 }
 
 // SetAccountType sets the value of AccountType.
 func (s *CvuAccountDetails) SetAccountType(val string) {
-    s.AccountType = val
+	s.AccountType = val
 }
 
 // SetCuit sets the value of Cuit.
 func (s *CvuAccountDetails) SetCuit(val OptString) {
-    s.Cuit = val
+	s.Cuit = val
 }
 
 // SetRoutingInfo sets the value of RoutingInfo.
 func (s *CvuAccountDetails) SetRoutingInfo(val CvuAccountDetailsRoutingInfo) {
-    s.RoutingInfo = val
+	s.RoutingInfo = val
 }
 
 type CvuAccountDetailsRoutingInfo struct {
-    OneOf CvuAccountDetailsRoutingInfoSum
+	OneOf CvuAccountDetailsRoutingInfoSum
 }
 
 // GetOneOf returns the value of OneOf.
 func (s *CvuAccountDetailsRoutingInfo) GetOneOf() CvuAccountDetailsRoutingInfoSum {
-    return s.OneOf
+	return s.OneOf
 }
 
 // SetOneOf sets the value of OneOf.
 func (s *CvuAccountDetailsRoutingInfo) SetOneOf(val CvuAccountDetailsRoutingInfoSum) {
-    s.OneOf = val
+	s.OneOf = val
 }
 
 // CvuAccountDetailsRoutingInfoSum represents sum type.
 type CvuAccountDetailsRoutingInfoSum struct {
-    Type                CvuAccountDetailsRoutingInfoSumType // switch on this field
-    CvuCvuRoutingInfo   CvuCvuRoutingInfo
-    AliasCvuRoutingInfo AliasCvuRoutingInfo
+	Type                CvuAccountDetailsRoutingInfoSumType // switch on this field
+	CvuCvuRoutingInfo   CvuCvuRoutingInfo
+	AliasCvuRoutingInfo AliasCvuRoutingInfo
 }
 
 // CvuAccountDetailsRoutingInfoSumType is oneOf type of CvuAccountDetailsRoutingInfoSum.
@@ -331,209 +331,209 @@ type CvuAccountDetailsRoutingInfoSumType string
 
 // Possible values for CvuAccountDetailsRoutingInfoSumType.
 const (
-    CvuCvuRoutingInfoCvuAccountDetailsRoutingInfoSum   CvuAccountDetailsRoutingInfoSumType = "cvu"
-    AliasCvuRoutingInfoCvuAccountDetailsRoutingInfoSum CvuAccountDetailsRoutingInfoSumType = "alias"
+	CvuCvuRoutingInfoCvuAccountDetailsRoutingInfoSum   CvuAccountDetailsRoutingInfoSumType = "cvu"
+	AliasCvuRoutingInfoCvuAccountDetailsRoutingInfoSum CvuAccountDetailsRoutingInfoSumType = "alias"
 )
 
 // IsCvuCvuRoutingInfo reports whether CvuAccountDetailsRoutingInfoSum is CvuCvuRoutingInfo.
 func (s CvuAccountDetailsRoutingInfoSum) IsCvuCvuRoutingInfo() bool {
-    return s.Type == CvuCvuRoutingInfoCvuAccountDetailsRoutingInfoSum
+	return s.Type == CvuCvuRoutingInfoCvuAccountDetailsRoutingInfoSum
 }
 
 // IsAliasCvuRoutingInfo reports whether CvuAccountDetailsRoutingInfoSum is AliasCvuRoutingInfo.
 func (s CvuAccountDetailsRoutingInfoSum) IsAliasCvuRoutingInfo() bool {
-    return s.Type == AliasCvuRoutingInfoCvuAccountDetailsRoutingInfoSum
+	return s.Type == AliasCvuRoutingInfoCvuAccountDetailsRoutingInfoSum
 }
 
 // SetCvuCvuRoutingInfo sets CvuAccountDetailsRoutingInfoSum to CvuCvuRoutingInfo.
 func (s *CvuAccountDetailsRoutingInfoSum) SetCvuCvuRoutingInfo(v CvuCvuRoutingInfo) {
-    s.Type = CvuCvuRoutingInfoCvuAccountDetailsRoutingInfoSum
-    s.CvuCvuRoutingInfo = v
+	s.Type = CvuCvuRoutingInfoCvuAccountDetailsRoutingInfoSum
+	s.CvuCvuRoutingInfo = v
 }
 
 // GetCvuCvuRoutingInfo returns CvuCvuRoutingInfo and true boolean if CvuAccountDetailsRoutingInfoSum is CvuCvuRoutingInfo.
 func (s CvuAccountDetailsRoutingInfoSum) GetCvuCvuRoutingInfo() (v CvuCvuRoutingInfo, ok bool) {
-    if !s.IsCvuCvuRoutingInfo() {
-        return v, false
-    }
-    return s.CvuCvuRoutingInfo, true
+	if !s.IsCvuCvuRoutingInfo() {
+		return v, false
+	}
+	return s.CvuCvuRoutingInfo, true
 }
 
 // NewCvuCvuRoutingInfoCvuAccountDetailsRoutingInfoSum returns new CvuAccountDetailsRoutingInfoSum from CvuCvuRoutingInfo.
 func NewCvuCvuRoutingInfoCvuAccountDetailsRoutingInfoSum(v CvuCvuRoutingInfo) CvuAccountDetailsRoutingInfoSum {
-    var s CvuAccountDetailsRoutingInfoSum
-    s.SetCvuCvuRoutingInfo(v)
-    return s
+	var s CvuAccountDetailsRoutingInfoSum
+	s.SetCvuCvuRoutingInfo(v)
+	return s
 }
 
 // SetAliasCvuRoutingInfo sets CvuAccountDetailsRoutingInfoSum to AliasCvuRoutingInfo.
 func (s *CvuAccountDetailsRoutingInfoSum) SetAliasCvuRoutingInfo(v AliasCvuRoutingInfo) {
-    s.Type = AliasCvuRoutingInfoCvuAccountDetailsRoutingInfoSum
-    s.AliasCvuRoutingInfo = v
+	s.Type = AliasCvuRoutingInfoCvuAccountDetailsRoutingInfoSum
+	s.AliasCvuRoutingInfo = v
 }
 
 // GetAliasCvuRoutingInfo returns AliasCvuRoutingInfo and true boolean if CvuAccountDetailsRoutingInfoSum is AliasCvuRoutingInfo.
 func (s CvuAccountDetailsRoutingInfoSum) GetAliasCvuRoutingInfo() (v AliasCvuRoutingInfo, ok bool) {
-    if !s.IsAliasCvuRoutingInfo() {
-        return v, false
-    }
-    return s.AliasCvuRoutingInfo, true
+	if !s.IsAliasCvuRoutingInfo() {
+		return v, false
+	}
+	return s.AliasCvuRoutingInfo, true
 }
 
 // NewAliasCvuRoutingInfoCvuAccountDetailsRoutingInfoSum returns new CvuAccountDetailsRoutingInfoSum from AliasCvuRoutingInfo.
 func NewAliasCvuRoutingInfoCvuAccountDetailsRoutingInfoSum(v AliasCvuRoutingInfo) CvuAccountDetailsRoutingInfoSum {
-    var s CvuAccountDetailsRoutingInfoSum
-    s.SetAliasCvuRoutingInfo(v)
-    return s
+	var s CvuAccountDetailsRoutingInfoSum
+	s.SetAliasCvuRoutingInfo(v)
+	return s
 }
 
 // Ref: #/components/schemas/cvuCvuRoutingInfo
 type CvuCvuRoutingInfo struct {
-    CvuRoutingInfoType string `json:"cvuRoutingInfoType"`
-    Cvu                string `json:"cvu"`
+	CvuRoutingInfoType string `json:"cvuRoutingInfoType"`
+	Cvu                string `json:"cvu"`
 }
 
 // GetCvuRoutingInfoType returns the value of CvuRoutingInfoType.
 func (s *CvuCvuRoutingInfo) GetCvuRoutingInfoType() string {
-    return s.CvuRoutingInfoType
+	return s.CvuRoutingInfoType
 }
 
 // GetCvu returns the value of Cvu.
 func (s *CvuCvuRoutingInfo) GetCvu() string {
-    return s.Cvu
+	return s.Cvu
 }
 
 // SetCvuRoutingInfoType sets the value of CvuRoutingInfoType.
 func (s *CvuCvuRoutingInfo) SetCvuRoutingInfoType(val string) {
-    s.CvuRoutingInfoType = val
+	s.CvuRoutingInfoType = val
 }
 
 // SetCvu sets the value of Cvu.
 func (s *CvuCvuRoutingInfo) SetCvu(val string) {
-    s.Cvu = val
+	s.Cvu = val
 }
 
 // Ref: #/components/schemas/dinopayAccountDetails
 type DinopayAccountDetails struct {
-    AccountType string `json:"accountType"`
-    // Name of the owner of the account.
-    AccountHolder string `json:"accountHolder"`
-    // Account number on DinoPay.
-    AccountNumber string `json:"accountNumber"`
+	AccountType string `json:"accountType"`
+	// Name of the owner of the account.
+	AccountHolder string `json:"accountHolder"`
+	// Account number on DinoPay.
+	AccountNumber string `json:"accountNumber"`
 }
 
 // GetAccountType returns the value of AccountType.
 func (s *DinopayAccountDetails) GetAccountType() string {
-    return s.AccountType
+	return s.AccountType
 }
 
 // GetAccountHolder returns the value of AccountHolder.
 func (s *DinopayAccountDetails) GetAccountHolder() string {
-    return s.AccountHolder
+	return s.AccountHolder
 }
 
 // GetAccountNumber returns the value of AccountNumber.
 func (s *DinopayAccountDetails) GetAccountNumber() string {
-    return s.AccountNumber
+	return s.AccountNumber
 }
 
 // SetAccountType sets the value of AccountType.
 func (s *DinopayAccountDetails) SetAccountType(val string) {
-    s.AccountType = val
+	s.AccountType = val
 }
 
 // SetAccountHolder sets the value of AccountHolder.
 func (s *DinopayAccountDetails) SetAccountHolder(val string) {
-    s.AccountHolder = val
+	s.AccountHolder = val
 }
 
 // SetAccountNumber sets the value of AccountNumber.
 func (s *DinopayAccountDetails) SetAccountNumber(val string) {
-    s.AccountNumber = val
+	s.AccountNumber = val
 }
 
 // Ref: #/components/schemas/direction
 type Direction string
 
 const (
-    DirectionInbound  Direction = "inbound"
-    DirectionOutbound Direction = "outbound"
+	DirectionInbound  Direction = "inbound"
+	DirectionOutbound Direction = "outbound"
 )
 
 // AllValues returns all Direction values.
 func (Direction) AllValues() []Direction {
-    return []Direction{
-        DirectionInbound,
-        DirectionOutbound,
-    }
+	return []Direction{
+		DirectionInbound,
+		DirectionOutbound,
+	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
 func (s Direction) MarshalText() ([]byte, error) {
-    switch s {
-    case DirectionInbound:
-        return []byte(s), nil
-    case DirectionOutbound:
-        return []byte(s), nil
-    default:
-        return nil, errors.Errorf("invalid value: %q", s)
-    }
+	switch s {
+	case DirectionInbound:
+		return []byte(s), nil
+	case DirectionOutbound:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *Direction) UnmarshalText(data []byte) error {
-    switch Direction(data) {
-    case DirectionInbound:
-        *s = DirectionInbound
-        return nil
-    case DirectionOutbound:
-        *s = DirectionOutbound
-        return nil
-    default:
-        return errors.Errorf("invalid value: %q", data)
-    }
+	switch Direction(data) {
+	case DirectionInbound:
+		*s = DirectionInbound
+		return nil
+	case DirectionOutbound:
+		*s = DirectionOutbound
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/gateway
 type Gateway string
 
 const (
-    GatewayBind    Gateway = "bind"
-    GatewayDinopay Gateway = "dinopay"
+	GatewayBind    Gateway = "bind"
+	GatewayDinopay Gateway = "dinopay"
 )
 
 // AllValues returns all Gateway values.
 func (Gateway) AllValues() []Gateway {
-    return []Gateway{
-        GatewayBind,
-        GatewayDinopay,
-    }
+	return []Gateway{
+		GatewayBind,
+		GatewayDinopay,
+	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
 func (s Gateway) MarshalText() ([]byte, error) {
-    switch s {
-    case GatewayBind:
-        return []byte(s), nil
-    case GatewayDinopay:
-        return []byte(s), nil
-    default:
-        return nil, errors.Errorf("invalid value: %q", s)
-    }
+	switch s {
+	case GatewayBind:
+		return []byte(s), nil
+	case GatewayDinopay:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *Gateway) UnmarshalText(data []byte) error {
-    switch Gateway(data) {
-    case GatewayBind:
-        *s = GatewayBind
-        return nil
-    case GatewayDinopay:
-        *s = GatewayDinopay
-        return nil
-    default:
-        return errors.Errorf("invalid value: %q", data)
-    }
+	switch Gateway(data) {
+	case GatewayBind:
+		*s = GatewayBind
+		return nil
+	case GatewayDinopay:
+		*s = GatewayDinopay
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // GetPaymentInternalServerError is response for GetPayment operation.
@@ -553,16 +553,16 @@ func (*GetPaymentUnauthorized) getPaymentRes() {}
 
 // NewOptString returns new OptString with value set to v.
 func NewOptString(v string) OptString {
-    return OptString{
-        Value: v,
-        Set:   true,
-    }
+	return OptString{
+		Value: v,
+		Set:   true,
+	}
 }
 
 // OptString is optional string.
 type OptString struct {
-    Value string
-    Set   bool
+	Value string
+	Set   bool
 }
 
 // IsSet returns true if OptString was set.
@@ -570,45 +570,45 @@ func (o OptString) IsSet() bool { return o.Set }
 
 // Reset unsets value.
 func (o *OptString) Reset() {
-    var v string
-    o.Value = v
-    o.Set = false
+	var v string
+	o.Value = v
+	o.Set = false
 }
 
 // SetTo sets value to v.
 func (o *OptString) SetTo(v string) {
-    o.Set = true
-    o.Value = v
+	o.Set = true
+	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
 func (o OptString) Get() (v string, ok bool) {
-    if !o.Set {
-        return v, false
-    }
-    return o.Value, true
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
 }
 
 // Or returns value if set, or given parameter if does not.
 func (o OptString) Or(d string) string {
-    if v, ok := o.Get(); ok {
-        return v
-    }
-    return d
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
 }
 
 // NewOptUUID returns new OptUUID with value set to v.
 func NewOptUUID(v uuid.UUID) OptUUID {
-    return OptUUID{
-        Value: v,
-        Set:   true,
-    }
+	return OptUUID{
+		Value: v,
+		Set:   true,
+	}
 }
 
 // OptUUID is optional uuid.UUID.
 type OptUUID struct {
-    Value uuid.UUID
-    Set   bool
+	Value uuid.UUID
+	Set   bool
 }
 
 // IsSet returns true if OptUUID was set.
@@ -616,31 +616,31 @@ func (o OptUUID) IsSet() bool { return o.Set }
 
 // Reset unsets value.
 func (o *OptUUID) Reset() {
-    var v uuid.UUID
-    o.Value = v
-    o.Set = false
+	var v uuid.UUID
+	o.Value = v
+	o.Set = false
 }
 
 // SetTo sets value to v.
 func (o *OptUUID) SetTo(v uuid.UUID) {
-    o.Set = true
-    o.Value = v
+	o.Set = true
+	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
 func (o OptUUID) Get() (v uuid.UUID, ok bool) {
-    if !o.Set {
-        return v, false
-    }
-    return o.Value, true
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
 }
 
 // Or returns value if set, or given parameter if does not.
 func (o OptUUID) Or(d uuid.UUID) uuid.UUID {
-    if v, ok := o.Get(); ok {
-        return v
-    }
-    return d
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
 }
 
 type PatchPaymentBadRequest ApiError
@@ -664,154 +664,154 @@ func (*PatchPaymentUnauthorized) patchPaymentRes() {}
 // Merged schema.
 // Ref: #/components/schemas/payment
 type Payment struct {
-    // Payment id.
-    ID uuid.UUID `json:"id"`
-    // Payment amount.
-    Amount      float64   `json:"amount"`
-    Currency    Currency  `json:"currency"`
-    Gateway     Gateway   `json:"gateway"`
-    Debtor      Account   `json:"debtor"`
-    Beneficiary Account   `json:"beneficiary"`
-    Direction   Direction `json:"direction"`
-    // The customer that sent or received the payment.
-    CustomerId uuid.UUID     `json:"customerId"`
-    Status     PaymentStatus `json:"status"`
-    // Id assigned to the operation by an external payment provider.
-    ExternalId OptString `json:"externalId"`
-    // Id assigned to the operation by the payment scheme or clearing institution.
-    SchemeId  OptString `json:"schemeId"`
-    CreatedAt time.Time `json:"createdAt"`
-    UpdatedAt time.Time `json:"updatedAt"`
+	// Payment id.
+	ID uuid.UUID `json:"id"`
+	// Payment amount.
+	Amount      float64   `json:"amount"`
+	Currency    Currency  `json:"currency"`
+	Gateway     Gateway   `json:"gateway"`
+	Debtor      Account   `json:"debtor"`
+	Beneficiary Account   `json:"beneficiary"`
+	Direction   Direction `json:"direction"`
+	// The customer that sent or received the payment.
+	CustomerId uuid.UUID     `json:"customerId"`
+	Status     PaymentStatus `json:"status"`
+	// Id assigned to the operation by an external payment provider.
+	ExternalId OptString `json:"externalId"`
+	// Id assigned to the operation by the payment scheme or clearing institution.
+	SchemeId  OptString `json:"schemeId"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // GetID returns the value of ID.
 func (s *Payment) GetID() uuid.UUID {
-    return s.ID
+	return s.ID
 }
 
 // GetAmount returns the value of Amount.
 func (s *Payment) GetAmount() float64 {
-    return s.Amount
+	return s.Amount
 }
 
 // GetCurrency returns the value of Currency.
 func (s *Payment) GetCurrency() Currency {
-    return s.Currency
+	return s.Currency
 }
 
 // GetGateway returns the value of Gateway.
 func (s *Payment) GetGateway() Gateway {
-    return s.Gateway
+	return s.Gateway
 }
 
 // GetDebtor returns the value of Debtor.
 func (s *Payment) GetDebtor() Account {
-    return s.Debtor
+	return s.Debtor
 }
 
 // GetBeneficiary returns the value of Beneficiary.
 func (s *Payment) GetBeneficiary() Account {
-    return s.Beneficiary
+	return s.Beneficiary
 }
 
 // GetDirection returns the value of Direction.
 func (s *Payment) GetDirection() Direction {
-    return s.Direction
+	return s.Direction
 }
 
 // GetCustomerId returns the value of CustomerId.
 func (s *Payment) GetCustomerId() uuid.UUID {
-    return s.CustomerId
+	return s.CustomerId
 }
 
 // GetStatus returns the value of Status.
 func (s *Payment) GetStatus() PaymentStatus {
-    return s.Status
+	return s.Status
 }
 
 // GetExternalId returns the value of ExternalId.
 func (s *Payment) GetExternalId() OptString {
-    return s.ExternalId
+	return s.ExternalId
 }
 
 // GetSchemeId returns the value of SchemeId.
 func (s *Payment) GetSchemeId() OptString {
-    return s.SchemeId
+	return s.SchemeId
 }
 
 // GetCreatedAt returns the value of CreatedAt.
 func (s *Payment) GetCreatedAt() time.Time {
-    return s.CreatedAt
+	return s.CreatedAt
 }
 
 // GetUpdatedAt returns the value of UpdatedAt.
 func (s *Payment) GetUpdatedAt() time.Time {
-    return s.UpdatedAt
+	return s.UpdatedAt
 }
 
 // SetID sets the value of ID.
 func (s *Payment) SetID(val uuid.UUID) {
-    s.ID = val
+	s.ID = val
 }
 
 // SetAmount sets the value of Amount.
 func (s *Payment) SetAmount(val float64) {
-    s.Amount = val
+	s.Amount = val
 }
 
 // SetCurrency sets the value of Currency.
 func (s *Payment) SetCurrency(val Currency) {
-    s.Currency = val
+	s.Currency = val
 }
 
 // SetGateway sets the value of Gateway.
 func (s *Payment) SetGateway(val Gateway) {
-    s.Gateway = val
+	s.Gateway = val
 }
 
 // SetDebtor sets the value of Debtor.
 func (s *Payment) SetDebtor(val Account) {
-    s.Debtor = val
+	s.Debtor = val
 }
 
 // SetBeneficiary sets the value of Beneficiary.
 func (s *Payment) SetBeneficiary(val Account) {
-    s.Beneficiary = val
+	s.Beneficiary = val
 }
 
 // SetDirection sets the value of Direction.
 func (s *Payment) SetDirection(val Direction) {
-    s.Direction = val
+	s.Direction = val
 }
 
 // SetCustomerId sets the value of CustomerId.
 func (s *Payment) SetCustomerId(val uuid.UUID) {
-    s.CustomerId = val
+	s.CustomerId = val
 }
 
 // SetStatus sets the value of Status.
 func (s *Payment) SetStatus(val PaymentStatus) {
-    s.Status = val
+	s.Status = val
 }
 
 // SetExternalId sets the value of ExternalId.
 func (s *Payment) SetExternalId(val OptString) {
-    s.ExternalId = val
+	s.ExternalId = val
 }
 
 // SetSchemeId sets the value of SchemeId.
 func (s *Payment) SetSchemeId(val OptString) {
-    s.SchemeId = val
+	s.SchemeId = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
 func (s *Payment) SetCreatedAt(val time.Time) {
-    s.CreatedAt = val
+	s.CreatedAt = val
 }
 
 // SetUpdatedAt sets the value of UpdatedAt.
 func (s *Payment) SetUpdatedAt(val time.Time) {
-    s.UpdatedAt = val
+	s.UpdatedAt = val
 }
 
 func (*Payment) getPaymentRes()  {}
@@ -821,104 +821,103 @@ func (*Payment) postPaymentRes() {}
 type PaymentStatus string
 
 const (
-    PaymentStatusPending   PaymentStatus = "pending"
-    PaymentStatusDelivered PaymentStatus = "delivered"
-    PaymentStatusConfirmed PaymentStatus = "confirmed"
-    PaymentStatusFailed    PaymentStatus = "failed"
-    PaymentStatusRejected  PaymentStatus = "rejected"
+	PaymentStatusPending   PaymentStatus = "pending"
+	PaymentStatusDelivered PaymentStatus = "delivered"
+	PaymentStatusConfirmed PaymentStatus = "confirmed"
+	PaymentStatusFailed    PaymentStatus = "failed"
+	PaymentStatusRejected  PaymentStatus = "rejected"
 )
 
 // AllValues returns all PaymentStatus values.
 func (PaymentStatus) AllValues() []PaymentStatus {
-    return []PaymentStatus{
-        PaymentStatusPending,
-        PaymentStatusDelivered,
-        PaymentStatusConfirmed,
-        PaymentStatusFailed,
-        PaymentStatusRejected,
-    }
+	return []PaymentStatus{
+		PaymentStatusPending,
+		PaymentStatusDelivered,
+		PaymentStatusConfirmed,
+		PaymentStatusFailed,
+		PaymentStatusRejected,
+	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
 func (s PaymentStatus) MarshalText() ([]byte, error) {
-    switch s {
-    case PaymentStatusPending:
-        return []byte(s), nil
-    case PaymentStatusDelivered:
-        return []byte(s), nil
-    case PaymentStatusConfirmed:
-        return []byte(s), nil
-    case PaymentStatusFailed:
-        return []byte(s), nil
-    case PaymentStatusRejected:
-        return []byte(s), nil
-    default:
-        return nil, errors.Errorf("invalid value: %q", s)
-    }
+	switch s {
+	case PaymentStatusPending:
+		return []byte(s), nil
+	case PaymentStatusDelivered:
+		return []byte(s), nil
+	case PaymentStatusConfirmed:
+		return []byte(s), nil
+	case PaymentStatusFailed:
+		return []byte(s), nil
+	case PaymentStatusRejected:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *PaymentStatus) UnmarshalText(data []byte) error {
-    switch PaymentStatus(data) {
-    case PaymentStatusPending:
-        *s = PaymentStatusPending
-        return nil
-    case PaymentStatusDelivered:
-        *s = PaymentStatusDelivered
-        return nil
-    case PaymentStatusConfirmed:
-        *s = PaymentStatusConfirmed
-        return nil
-    case PaymentStatusFailed:
-        *s = PaymentStatusFailed
-        return nil
-    case PaymentStatusRejected:
-        *s = PaymentStatusRejected
-        return nil
-    default:
-        return errors.Errorf("invalid value: %q", data)
-    }
+	switch PaymentStatus(data) {
+	case PaymentStatusPending:
+		*s = PaymentStatusPending
+		return nil
+	case PaymentStatusDelivered:
+		*s = PaymentStatusDelivered
+		return nil
+	case PaymentStatusConfirmed:
+		*s = PaymentStatusConfirmed
+		return nil
+	case PaymentStatusFailed:
+		*s = PaymentStatusFailed
+		return nil
+	case PaymentStatusRejected:
+		*s = PaymentStatusRejected
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Body of the PATH /withdrawal request.
 // Ref: #/components/schemas/paymentUpdate
 type PaymentUpdate struct {
-    // Payment Id.
-    PaymentId uuid.UUID `json:"paymentId"`
-    // Id assigned to the operation by the external payment provider.
-    ExternalId OptString     `json:"externalId"`
-    Status     PaymentStatus `json:"status"`
-    UpdatedAt  time.Time     `json:"updatedAt"`
+	// Payment Id.
+	PaymentId uuid.UUID `json:"paymentId"`
+	// Id assigned to the operation by the external payment provider.
+	ExternalId OptString     `json:"externalId"`
+	Status     PaymentStatus `json:"status"`
 }
 
 // GetPaymentId returns the value of PaymentId.
 func (s *PaymentUpdate) GetPaymentId() uuid.UUID {
-    return s.PaymentId
+	return s.PaymentId
 }
 
 // GetExternalId returns the value of ExternalId.
 func (s *PaymentUpdate) GetExternalId() OptString {
-    return s.ExternalId
+	return s.ExternalId
 }
 
 // GetStatus returns the value of Status.
 func (s *PaymentUpdate) GetStatus() PaymentStatus {
-    return s.Status
+	return s.Status
 }
 
 // SetPaymentId sets the value of PaymentId.
 func (s *PaymentUpdate) SetPaymentId(val uuid.UUID) {
-    s.PaymentId = val
+	s.PaymentId = val
 }
 
 // SetExternalId sets the value of ExternalId.
 func (s *PaymentUpdate) SetExternalId(val OptString) {
-    s.ExternalId = val
+	s.ExternalId = val
 }
 
 // SetStatus sets the value of Status.
 func (s *PaymentUpdate) SetStatus(val PaymentStatus) {
-    s.Status = val
+	s.Status = val
 }
 
 type PostPaymentBadRequest ApiError
@@ -935,132 +934,132 @@ func (*PostPaymentInternalServerError) postPaymentRes() {}
 
 // Merged schema.
 type PostPaymentReq struct {
-    // Payment id.
-    ID uuid.UUID `json:"id"`
-    // Payment amount.
-    Amount      float64   `json:"amount"`
-    Currency    Currency  `json:"currency"`
-    Gateway     Gateway   `json:"gateway"`
-    Debtor      Account   `json:"debtor"`
-    Beneficiary Account   `json:"beneficiary"`
-    Direction   Direction `json:"direction"`
-    // The customer that sent or received the payment.
-    CustomerId uuid.UUID     `json:"customerId"`
-    Status     PaymentStatus `json:"status"`
-    // Id assigned to the operation by an external payment provider.
-    ExternalId OptString `json:"externalId"`
-    // Id assigned to the operation by the payment scheme or clearing institution.
-    SchemeId OptString `json:"schemeId"`
+	// Payment id.
+	ID uuid.UUID `json:"id"`
+	// Payment amount.
+	Amount      float64   `json:"amount"`
+	Currency    Currency  `json:"currency"`
+	Gateway     Gateway   `json:"gateway"`
+	Debtor      Account   `json:"debtor"`
+	Beneficiary Account   `json:"beneficiary"`
+	Direction   Direction `json:"direction"`
+	// The customer that sent or received the payment.
+	CustomerId uuid.UUID     `json:"customerId"`
+	Status     PaymentStatus `json:"status"`
+	// Id assigned to the operation by an external payment provider.
+	ExternalId OptString `json:"externalId"`
+	// Id assigned to the operation by the payment scheme or clearing institution.
+	SchemeId OptString `json:"schemeId"`
 }
 
 // GetID returns the value of ID.
 func (s *PostPaymentReq) GetID() uuid.UUID {
-    return s.ID
+	return s.ID
 }
 
 // GetAmount returns the value of Amount.
 func (s *PostPaymentReq) GetAmount() float64 {
-    return s.Amount
+	return s.Amount
 }
 
 // GetCurrency returns the value of Currency.
 func (s *PostPaymentReq) GetCurrency() Currency {
-    return s.Currency
+	return s.Currency
 }
 
 // GetGateway returns the value of Gateway.
 func (s *PostPaymentReq) GetGateway() Gateway {
-    return s.Gateway
+	return s.Gateway
 }
 
 // GetDebtor returns the value of Debtor.
 func (s *PostPaymentReq) GetDebtor() Account {
-    return s.Debtor
+	return s.Debtor
 }
 
 // GetBeneficiary returns the value of Beneficiary.
 func (s *PostPaymentReq) GetBeneficiary() Account {
-    return s.Beneficiary
+	return s.Beneficiary
 }
 
 // GetDirection returns the value of Direction.
 func (s *PostPaymentReq) GetDirection() Direction {
-    return s.Direction
+	return s.Direction
 }
 
 // GetCustomerId returns the value of CustomerId.
 func (s *PostPaymentReq) GetCustomerId() uuid.UUID {
-    return s.CustomerId
+	return s.CustomerId
 }
 
 // GetStatus returns the value of Status.
 func (s *PostPaymentReq) GetStatus() PaymentStatus {
-    return s.Status
+	return s.Status
 }
 
 // GetExternalId returns the value of ExternalId.
 func (s *PostPaymentReq) GetExternalId() OptString {
-    return s.ExternalId
+	return s.ExternalId
 }
 
 // GetSchemeId returns the value of SchemeId.
 func (s *PostPaymentReq) GetSchemeId() OptString {
-    return s.SchemeId
+	return s.SchemeId
 }
 
 // SetID sets the value of ID.
 func (s *PostPaymentReq) SetID(val uuid.UUID) {
-    s.ID = val
+	s.ID = val
 }
 
 // SetAmount sets the value of Amount.
 func (s *PostPaymentReq) SetAmount(val float64) {
-    s.Amount = val
+	s.Amount = val
 }
 
 // SetCurrency sets the value of Currency.
 func (s *PostPaymentReq) SetCurrency(val Currency) {
-    s.Currency = val
+	s.Currency = val
 }
 
 // SetGateway sets the value of Gateway.
 func (s *PostPaymentReq) SetGateway(val Gateway) {
-    s.Gateway = val
+	s.Gateway = val
 }
 
 // SetDebtor sets the value of Debtor.
 func (s *PostPaymentReq) SetDebtor(val Account) {
-    s.Debtor = val
+	s.Debtor = val
 }
 
 // SetBeneficiary sets the value of Beneficiary.
 func (s *PostPaymentReq) SetBeneficiary(val Account) {
-    s.Beneficiary = val
+	s.Beneficiary = val
 }
 
 // SetDirection sets the value of Direction.
 func (s *PostPaymentReq) SetDirection(val Direction) {
-    s.Direction = val
+	s.Direction = val
 }
 
 // SetCustomerId sets the value of CustomerId.
 func (s *PostPaymentReq) SetCustomerId(val uuid.UUID) {
-    s.CustomerId = val
+	s.CustomerId = val
 }
 
 // SetStatus sets the value of Status.
 func (s *PostPaymentReq) SetStatus(val PaymentStatus) {
-    s.Status = val
+	s.Status = val
 }
 
 // SetExternalId sets the value of ExternalId.
 func (s *PostPaymentReq) SetExternalId(val OptString) {
-    s.ExternalId = val
+	s.ExternalId = val
 }
 
 // SetSchemeId sets the value of SchemeId.
 func (s *PostPaymentReq) SetSchemeId(val OptString) {
-    s.SchemeId = val
+	s.SchemeId = val
 }
 
 // PostPaymentUnauthorized is response for PostPayment operation.

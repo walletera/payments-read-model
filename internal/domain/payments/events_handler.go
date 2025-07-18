@@ -52,7 +52,6 @@ func (e *EventsHandler) HandlePaymentUpdated(ctx context.Context, paymentUpdated
         AggregateVersion: paymentUpdated.AggregateVersion(),
         Status:           paymentUpdated.Data.Status,
         ExternalId:       paymentUpdated.Data.ExternalId,
-        UpdatedAt:        paymentUpdated.Data.UpdatedAt,
     }
     werr := e.repository.UpdatePayment(ctx, paymentUpdate)
     if werr != nil {

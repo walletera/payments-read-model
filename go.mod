@@ -6,9 +6,9 @@ require (
 	github.com/cucumber/godog v0.14.0
 	github.com/google/uuid v1.6.0
 	github.com/testcontainers/testcontainers-go v0.30.0
-	github.com/walletera/eventskit v0.0.5
+	github.com/walletera/eventskit v0.0.6
 	github.com/walletera/logs-watcher v0.0.4
-	github.com/walletera/payments-types v0.0.16
+	github.com/walletera/payments-types v0.0.18
 	github.com/walletera/werrors v0.0.9
 	go.mongodb.org/mongo-driver/v2 v2.2.2
 	go.uber.org/zap v1.27.0
@@ -91,9 +91,4 @@ require (
 	google.golang.org/grpc v1.67.1 // indirect
 	google.golang.org/protobuf v1.35.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-)
-
-replace (
-	github.com/walletera/eventskit => ../eventskit
-	github.com/walletera/payments-types => ../payments-types
 )

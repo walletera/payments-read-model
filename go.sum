@@ -163,8 +163,12 @@ github.com/tklauser/go-sysconf v0.3.12 h1:0QaGUFOdQaIVdPgfITYzaTegZvdCjmYO52cSFA
 github.com/tklauser/go-sysconf v0.3.12/go.mod h1:Ho14jnntGE1fpdOqQEEaiKRpvIavV0hSfmBq8nJbHYI=
 github.com/tklauser/numcpus v0.6.1 h1:ng9scYS7az0Bk4OZLvrNXNSAO2Pxr1XXRAPyjhIx+Fk=
 github.com/tklauser/numcpus v0.6.1/go.mod h1:1XfjsgE2zo8GVw7POkMbHENHzVg3GzmoZ9fESEdAacY=
+github.com/walletera/eventskit v0.0.6 h1:Rcz1osXxGtNQZjro3n1DeuBz726a+YW0rtSJ7l8hOYs=
+github.com/walletera/eventskit v0.0.6/go.mod h1:gWScJZr3cdHlhnMEheCb8g1S1XvInLIzUYN42M6+tIw=
 github.com/walletera/logs-watcher v0.0.4 h1:K8pG2fViwK1K/hq2NRTET3sMlEg3qKne57oxOceBsJA=
 github.com/walletera/logs-watcher v0.0.4/go.mod h1:727nZgaxkTO3qau3bVgrcQR6dKqB8svDRkHsnKTGPho=
+github.com/walletera/payments-types v0.0.18 h1:Akt5kSHIS0wCNDgnlC1yGdL1Y0EsA8J4NXcajcQsYho=
+github.com/walletera/payments-types v0.0.18/go.mod h1:Dw8brpL1ZHJVqh/DvzVEQOgYf/AznnFABe5uEhU3bTo=
 github.com/walletera/werrors v0.0.9 h1:7bm2nmh1F3Iaeg3xfKTnjyy4YcBLgCQabgP3/kAKgZM=
 github.com/walletera/werrors v0.0.9/go.mod h1:oim2QX5jK13jwfQBjUkC0eV9Y2l28oVkQr2mlb1He9s=
 github.com/xdg-go/pbkdf2 v1.0.0 h1:Su7DPu48wXMwC3bs7MCNG+z4FhcyEuz5dlvchbq0B0c=

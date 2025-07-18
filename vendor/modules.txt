@@ -260,7 +260,7 @@ github.com/tklauser/go-sysconf
 # github.com/tklauser/numcpus v0.6.1
 ## explicit; go 1.13
 github.com/tklauser/numcpus
-# github.com/walletera/eventskit v0.0.5 => ../eventskit
+# github.com/walletera/eventskit v0.0.6
 ## explicit; go 1.22.4
 github.com/walletera/eventskit/events
 github.com/walletera/eventskit/messages
@@ -269,7 +269,7 @@ github.com/walletera/eventskit/rabbitmq
 ## explicit; go 1.20
 github.com/walletera/logs-watcher/newline
 github.com/walletera/logs-watcher/slog
-# github.com/walletera/payments-types v0.0.16 => ../payments-types
+# github.com/walletera/payments-types v0.0.18
 ## explicit; go 1.22.4
 github.com/walletera/payments-types/events
 github.com/walletera/payments-types/pkg/wogen
@@ -482,5 +482,3 @@ google.golang.org/protobuf/types/known/anypb
 # gopkg.in/yaml.v2 v2.4.0
 ## explicit; go 1.15
 gopkg.in/yaml.v2
-# github.com/walletera/eventskit => ../eventskit
-# github.com/walletera/payments-types => ../payments-types
