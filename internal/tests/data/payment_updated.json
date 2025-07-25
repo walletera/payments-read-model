@@ -1,0 +1,10 @@
+{
+  "id": "65aec719-5a2c-4600-8511-cb6962efda21",
+  "type": "PaymentUpdated",
+  "aggregateVersion": 1,
+  "data": {
+    "paymentId": "0ae1733e-7538-4908-b90a-5721670cb093",
+    "externalId": "SOME-EXTERNAL-ID-1234",
+    "status": "confirmed"
+  }
+}

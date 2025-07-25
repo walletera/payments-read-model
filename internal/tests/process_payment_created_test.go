@@ -71,6 +71,18 @@ func beforeScenarioHook(ctx context.Context, _ *godog.Scenario) (context.Context
     }
     logsWatcher := slogwatcher.NewWatcher(handler)
     ctx = context.WithValue(ctx, logsWatcherKey, logsWatcher)
+
+    client, err := getMongodbClient()
+    if err != nil {
+        return ctx, err
+    }
+
+    // cleanup database before each scenario
+    err = client.Database("payments").Collection("payments").Drop(ctx)
+    if err != nil {
+        return nil, err
+    }
+
     return ctx, nil
 }
 
@@ -125,11 +137,16 @@ func afterScenarioHook(ctx context.Context, _ *godog.Scenario, err error) (conte
     return ctx, nil
 }
 
-func anEvent(ctx context.Context, event *godog.DocString) (context.Context, error) {
-    if event == nil || len(event.Content) == 0 {
-        return ctx, fmt.Errorf("the event is empty or was not defined")
+func anEvent(ctx context.Context, eventJsonFilePath *godog.DocString) (context.Context, error) {
+    if eventJsonFilePath == nil || len(eventJsonFilePath.Content) == 0 {
+        return ctx, fmt.Errorf("the eventJsonFilePath is empty or was not defined")
     }
-    rawEvent := []byte(event.Content)
+
+    rawEvent, err := os.ReadFile(eventJsonFilePath.Content)
+    if err != nil {
+        return ctx, fmt.Errorf("error reading event JSON file: %w", err)
+    }
+
     logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
     deserializer := paymentsevents.NewDeserializer(logger)
     deserializedEvent, err := deserializer.Deserialize(rawEvent)
@@ -162,22 +179,10 @@ func theEventIsPublished(ctx context.Context) (context.Context, error) {
 }
 
 func thePaymentExistInThePaymentsReadModel(ctx context.Context) (context.Context, error) {
-    MongodbUri := "mongodb://localhost:27017/?retryWrites=true&w=majority"
-
-    // Use the SetServerAPIOptions() method to set the Stable API version to 1
-    serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-    opts := options.Client().ApplyURI(MongodbUri).SetServerAPIOptions(serverAPI)
-
-    // Create a new client and connect to the server
-    client, err := mongo.Connect(opts)
+    client, err := getMongodbClient()
     if err != nil {
-        panic(err)
+        return ctx, err
     }
-    defer func() {
-        if err = client.Disconnect(context.TODO()); err != nil {
-            panic(err)
-        }
-    }()
 
     paymentCreatedEvent := paymentCreatedEventFromCtx(ctx)
 
