@@ -7,9 +7,11 @@ import (
 
     "github.com/google/uuid"
     "github.com/walletera/payments-types/privateapi"
+    "github.com/walletera/payments-types/publicapi"
     "github.com/walletera/werrors"
     "go.mongodb.org/mongo-driver/v2/bson"
     "go.mongodb.org/mongo-driver/v2/mongo"
+    "go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 type PaymentBSON struct {
@@ -80,11 +82,6 @@ func (p *PaymentsRepository) UpdatePayment(ctx context.Context, paymentUpdate pa
     return nil
 }
 
-func (p *PaymentsRepository) SearchPayments(ctx context.Context, query string) (payments.QueryResult, werrors.WError) {
-    //TODO implement me
-    panic("implement me")
-}
-
 func checkVersion(ctx context.Context, coll *mongo.Collection, paymentUpdate payments.PaymentUpdate) werrors.WError {
     result := coll.FindOne(
         ctx,
@@ -106,4 +103,70 @@ func checkVersion(ctx context.Context, coll *mongo.Collection, paymentUpdate pay
     } else { // paymentUpdate.AggregateVersion >= expectedUpdateVersion
         return werrors.NewRetryableInternalError("gap detected between update version %d and expected version %d, retrying...", retrievedPayment.AggregateVersion, expectedUpdateVersion)
     }
+}
+
+func (p *PaymentsRepository) SearchPayments(ctx context.Context, listPaymentsParams publicapi.ListPaymentsParams) (payments.QueryResult, werrors.WError) {
+    filter := bson.M{}
+
+    if listPaymentsParams.ID.IsSet() {
+        filter["_id"] = listPaymentsParams.ID.Value
+    }
+    if listPaymentsParams.CustomerId.IsSet() {
+        filter["data.customerId"] = listPaymentsParams.CustomerId.Value
+    }
+    if listPaymentsParams.Status.IsSet() {
+        filter["data.status"] = listPaymentsParams.Status.Value
+    }
+    if listPaymentsParams.Gateway.IsSet() {
+        filter["data.gateway"] = listPaymentsParams.Gateway.Value
+    }
+    if listPaymentsParams.ExternalId.IsSet() {
+        filter["data.externalId"] = listPaymentsParams.ExternalId.Value
+    }
+    if listPaymentsParams.SchemeId.IsSet() {
+        filter["data.schemeId"] = listPaymentsParams.SchemeId.Value
+    }
+    if listPaymentsParams.DateFrom.IsSet() || listPaymentsParams.DateTo.IsSet() {
+        dateFilter := bson.M{}
+        if listPaymentsParams.DateFrom.IsSet() {
+            dateFilter["$gte"] = listPaymentsParams.DateFrom.Value
+        }
+        if listPaymentsParams.DateTo.IsSet() {
+            dateFilter["$lte"] = listPaymentsParams.DateTo.Value
+        }
+        filter["data.createdAt"] = dateFilter
+    }
+
+    coll := p.client.Database(p.dbName).Collection(p.collectionName)
+
+    total, err := coll.CountDocuments(ctx, filter)
+    if err != nil {
+        return payments.QueryResult{}, werrors.NewRetryableInternalError("failed to count payments: %s", err.Error())
+    }
+
+    sort := bson.D{{"createdAt", -1}, {"_id", -1}}
+    findOpts := options.Find().SetSort(sort)
+
+    limit := int64(50)
+    if listPaymentsParams.Limit.IsSet() {
+        limit = int64(listPaymentsParams.Limit.Value)
+        findOpts.SetLimit(limit)
+    }
+
+    offset := int64(0)
+    if listPaymentsParams.Offset.IsSet() {
+        offset = int64(listPaymentsParams.Offset.Value)
+        findOpts.SetSkip(offset)
+    }
+
+    cursor, err := coll.Find(ctx, filter, findOpts)
+    if err != nil {
+        return payments.QueryResult{}, werrors.NewRetryableInternalError("failed to find payments: %s", err.Error())
+    }
+
+    iterator := &Iterator{cursor: cursor}
+    return payments.QueryResult{
+        Iterator: iterator,
+        Total:    uint64(total),
+    }, nil
 }

@@ -5,13 +5,9 @@ import (
     "fmt"
     "testing"
 
-    "payments-read-model/internal/adapters/mongodb"
-
     "github.com/cucumber/godog"
     paymentsevents "github.com/walletera/payments-types/events"
-    "go.mongodb.org/mongo-driver/v2/bson"
-    "go.mongodb.org/mongo-driver/v2/mongo"
-    "go.mongodb.org/mongo-driver/v2/mongo/options"
+    "github.com/walletera/payments-types/publicapi"
 )
 
 func TestPaymentUpdatedEventProcessing(t *testing.T) {
@@ -44,44 +40,21 @@ func InitializeProcessPaymentUpdatedFeature(ctx *godog.ScenarioContext) {
 }
 
 func thePaymentsReadModelHasTheExpectedNewValues(ctx context.Context) (context.Context, error) {
-    MongodbUri := "mongodb://localhost:27017/?retryWrites=true&w=majority"
-
-    // Use the SetServerAPIOptions() method to set the Stable API version to 1
-    serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-    opts := options.Client().ApplyURI(MongodbUri).SetServerAPIOptions(serverAPI)
-
-    // Create a new client and connect to the server
-    client, err := mongo.Connect(opts)
-    if err != nil {
-        panic(err)
-    }
-    defer func() {
-        if err = client.Disconnect(context.TODO()); err != nil {
-            panic(err)
-        }
-    }()
-
     event := paymentUpdatedEventFromCtx(ctx)
 
-    coll := client.Database("payments").Collection("payments")
-
-    retrievedPayment := mongodb.PaymentBSON{}
-    singleResult := coll.FindOne(ctx, bson.D{{"_id", event.Data.PaymentId}})
-    if singleResult.Err() != nil {
-        return ctx, singleResult.Err()
-    }
-
-    err = singleResult.Decode(&retrievedPayment)
+    listPaymentsOk, err := retrievePayments(ctx, publicapi.ListPaymentsParams{ID: publicapi.NewOptUUID(event.Data.PaymentId)})
     if err != nil {
         return ctx, err
     }
 
-    if retrievedPayment.Data.Status != event.Data.Status {
-        return ctx, fmt.Errorf("expected payment status to be %s, but got %s", event.Data.Status, retrievedPayment.Data.Status)
+    retrievedPayment := listPaymentsOk.Items[0]
+
+    if string(retrievedPayment.Status) != string(event.Data.Status) {
+        return ctx, fmt.Errorf("expected payment status to be %s, but got %s", event.Data.Status, retrievedPayment.Status)
     }
 
-    if retrievedPayment.Data.ExternalId != event.Data.ExternalId {
-        return ctx, fmt.Errorf("expected payment externalId to be %s, but got %s", event.Data.ExternalId.Value, retrievedPayment.Data.ExternalId.Value)
+    if retrievedPayment.ExternalId.Value != event.Data.ExternalId.Value {
+        return ctx, fmt.Errorf("expected payment externalId to be %s, but got %s", event.Data.ExternalId.Value, retrievedPayment.ExternalId.Value)
     }
 
     return ctx, nil

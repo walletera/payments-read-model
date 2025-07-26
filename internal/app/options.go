@@ -4,6 +4,12 @@ import "log/slog"
 
 type Option func(app *App)
 
+func WithPublicAPIConfig(config PublicAPIConfig) func(a *App) {
+    return func(a *App) {
+        a.publicAPIConfig = NewOptional[PublicAPIConfig](config)
+    }
+}
+
 func WithRabbitmqHost(host string) func(a *App) { return func(a *App) { a.rabbitmqHost = host } }
 
 func WithRabbitmqPort(port int) func(a *App) { return func(a *App) { a.rabbitmqPort = port } }

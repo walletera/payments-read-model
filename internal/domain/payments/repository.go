@@ -6,6 +6,7 @@ import (
 
     "github.com/google/uuid"
     "github.com/walletera/payments-types/privateapi"
+    "github.com/walletera/payments-types/publicapi"
     "github.com/walletera/werrors"
 )
 
@@ -24,7 +25,7 @@ type PaymentUpdate struct {
 }
 
 type Iterator interface {
-    Next() (*Payment, error)
+    Next() (bool, Payment, error)
 }
 
 type QueryResult struct {
@@ -36,5 +37,5 @@ type Repository interface {
     GetPayment(ctx context.Context, id uuid.UUID) (Payment, werrors.WError)
     SavePayment(ctx context.Context, payment Payment) werrors.WError
     UpdatePayment(ctx context.Context, payment PaymentUpdate) werrors.WError
-    SearchPayments(ctx context.Context, query string) (QueryResult, werrors.WError)
+    SearchPayments(ctx context.Context, listPaymentsParams publicapi.ListPaymentsParams) (QueryResult, werrors.WError)
 }

@@ -2,10 +2,13 @@ package app
 
 import (
     "context"
+    "errors"
     "fmt"
     "log/slog"
+    "net/http"
     "time"
 
+    "payments-read-model/internal/adapters/input/http/public"
     "payments-read-model/internal/adapters/mongodb"
     "payments-read-model/internal/domain/payments"
     "payments-read-model/pkg/logattr"
@@ -13,6 +16,7 @@ import (
     "github.com/walletera/eventskit/messages"
     "github.com/walletera/eventskit/rabbitmq"
     paymentsevents "github.com/walletera/payments-types/events"
+    "github.com/walletera/payments-types/publicapi"
     "github.com/walletera/werrors"
     "go.mongodb.org/mongo-driver/v2/mongo"
     "go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -29,13 +33,15 @@ const (
 )
 
 type App struct {
-    rabbitmqHost     string
-    rabbitmqPort     int
-    rabbitmqUser     string
-    rabbitmqPassword string
-    mongoClient      *mongo.Client
-    logHandler       slog.Handler
-    logger           *slog.Logger
+    rabbitmqHost      string
+    rabbitmqPort      int
+    rabbitmqUser      string
+    rabbitmqPassword  string
+    mongoClient       *mongo.Client
+    publicAPIConfig   Optional[PublicAPIConfig]
+    logHandler        slog.Handler
+    logger            *slog.Logger
+    httpServersToStop []*http.Server
 }
 
 func NewApp(opts ...Option) (*App, error) {
@@ -62,6 +68,19 @@ func (app *App) Run(ctx context.Context) error {
         return fmt.Errorf("error creating payments message processor: %w", err)
     }
 
+    var httpServersToStop []*http.Server
+
+    var publicApiHttpServer *http.Server
+    if app.publicAPIConfig.Set {
+        publicApiHttpServer, err = app.startPublicAPIHTTPServer(app.logger)
+        if err != nil {
+            return fmt.Errorf("failed starting public api http server: %w", err)
+        }
+
+        httpServersToStop = append(httpServersToStop, publicApiHttpServer)
+    }
+    app.httpServersToStop = httpServersToStop
+
     err = processor.Start(ctx)
     if err != nil {
         return fmt.Errorf("error starting payments message processor: %w", err)
@@ -75,6 +94,12 @@ func (app *App) Stop(ctx context.Context) {
     err := app.mongoClient.Disconnect(context.TODO())
     if err != nil {
         app.logger.Error("error disconnecting from mongo", logattr.Error(err.Error()))
+    }
+    for _, httpServer := range app.httpServersToStop {
+        err := httpServer.Shutdown(ctx)
+        if err != nil {
+            app.logger.Error("error stopping http server", logattr.Error(err.Error()))
+        }
     }
     app.logger.Info("payments-read-model stopped")
 }
@@ -159,4 +184,34 @@ func withErrorCallback(logger *slog.Logger) messages.ProcessorOpt {
             "failed processing message",
             logattr.Error(wError.Message()))
     })
+}
+
+func (app *App) startPublicAPIHTTPServer(appLogger *slog.Logger) (*http.Server, error) {
+    repository := mongodb.NewPaymentsRepository(app.mongoClient, "payments", "payments")
+
+    server, err := publicapi.NewServer(
+        public.NewHandler(
+            repository,
+            appLogger.With(logattr.Component("http.PublicAPIHandler")),
+        ),
+        &public.SecurityHandler{},
+    )
+    if err != nil {
+        panic(err)
+    }
+    httpServer := &http.Server{
+        Addr:    fmt.Sprintf("0.0.0.0:%d", app.publicAPIConfig.Value.PublicAPIHttpServerPort),
+        Handler: server,
+    }
+
+    go func() {
+        defer appLogger.Info("http server stopped")
+        if err := httpServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+            appLogger.Error("http server error", logattr.Error(err.Error()))
+        }
+    }()
+
+    appLogger.Info("http server started")
+
+    return httpServer, nil
 }
