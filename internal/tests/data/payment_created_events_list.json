@@ -1,0 +1,412 @@
+[
+  {
+    "id": "d6d01cf2-628b-4742-8dc8-6b578fe18100",
+    "type": "PaymentCreated",
+    "aggregateVersion": 0,
+    "data": {
+      "id": "0ae1733e-7538-4908-b90a-5721670cb000",
+      "amount": 100,
+      "currency": "USD",
+      "direction": "outbound",
+      "gateway": "dinopay",
+      "customerId": "2432318c-4ff3-4ac0-b734-9b61779e2e46",
+      "externalId": "EXTERNAL-ID-00",
+      "status": "confirmed",
+      "debtor": {
+        "institutionName": "Lemon Cash",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0003252627188236545234"
+          }
+        }
+      },
+      "beneficiary": {
+        "institutionName": "LetsBit",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0004252627182736545234"
+          }
+        }
+      },
+      "createdAt": "2024-10-10T00:00:00Z",
+      "updatedAt": "2024-10-10T00:00:00Z"
+    }
+  },
+  {
+    "id": "d6d01cf2-628b-4742-8dc8-6b578fe18101",
+    "type": "PaymentCreated",
+    "aggregateVersion": 0,
+    "data": {
+      "id": "0ae1733e-7538-4908-b90a-5721670cb001",
+      "amount": 101,
+      "currency": "USD",
+      "direction": "outbound",
+      "gateway": "dinopay",
+      "customerId": "2432318c-4ff3-4ac0-b734-9b61779e2e46",
+      "externalId": "EXTERNAL-ID-01",
+      "status": "confirmed",
+      "debtor": {
+        "institutionName": "Lemon Cash",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0003252627188236545234"
+          }
+        }
+      },
+      "beneficiary": {
+        "institutionName": "LetsBit",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0004252627182736545234"
+          }
+        }
+      },
+      "createdAt": "2024-10-11T00:00:00Z",
+      "updatedAt": "2024-10-11T00:00:00Z"
+    }
+  },
+  {
+    "id": "d6d01cf2-628b-4742-8dc8-6b578fe18102",
+    "type": "PaymentCreated",
+    "aggregateVersion": 0,
+    "data": {
+      "id": "0ae1733e-7538-4908-b90a-5721670cb002",
+      "amount": 100,
+      "currency": "USD",
+      "direction": "outbound",
+      "gateway": "dinopay",
+      "customerId": "2432318c-4ff3-4ac0-b734-9b61779e2e46",
+      "externalId": "EXTERNAL-ID-02",
+      "status": "confirmed",
+      "debtor": {
+        "institutionName": "Lemon Cash",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0003252627188236545234"
+          }
+        }
+      },
+      "beneficiary": {
+        "institutionName": "LetsBit",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0004252627182736545234"
+          }
+        }
+      },
+      "createdAt": "2024-10-12T00:00:00Z",
+      "updatedAt": "2024-10-12T00:00:00Z"
+    }
+  },
+  {
+    "id": "d6d01cf2-628b-4742-8dc8-6b578fe18103",
+    "type": "PaymentCreated",
+    "aggregateVersion": 0,
+    "data": {
+      "id": "0ae1733e-7538-4908-b90a-5721670cb003",
+      "amount": 100,
+      "currency": "USD",
+      "direction": "outbound",
+      "gateway": "dinopay",
+      "customerId": "2432318c-4ff3-4ac0-b734-9b61779e2e46",
+      "externalId": "EXTERNAL-ID-03",
+      "status": "rejected",
+      "debtor": {
+        "institutionName": "Lemon Cash",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0003252627188236545234"
+          }
+        }
+      },
+      "beneficiary": {
+        "institutionName": "LetsBit",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0004252627182736545234"
+          }
+        }
+      },
+      "createdAt": "2024-10-13T00:00:00Z",
+      "updatedAt": "2024-10-13T00:00:00Z"
+    }
+  },
+  {
+    "id": "d6d01cf2-628b-4742-8dc8-6b578fe18104",
+    "type": "PaymentCreated",
+    "aggregateVersion": 0,
+    "data": {
+      "id": "0ae1733e-7538-4908-b90a-5721670cb004",
+      "amount": 101,
+      "currency": "USD",
+      "direction": "outbound",
+      "gateway": "dinopay",
+      "customerId": "2432318c-4ff3-4ac0-b734-9b61779e2e46",
+      "externalId": "EXTERNAL-ID-04",
+      "status": "rejected",
+      "debtor": {
+        "institutionName": "Lemon Cash",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0003252627188236545234"
+          }
+        }
+      },
+      "beneficiary": {
+        "institutionName": "LetsBit",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0004252627182736545234"
+          }
+        }
+      },
+      "createdAt": "2024-10-14T00:00:00Z",
+      "updatedAt": "2024-10-14T00:00:00Z"
+    }
+  },
+  {
+    "id": "d6d01cf2-628b-4742-8dc8-6b578fe18105",
+    "type": "PaymentCreated",
+    "aggregateVersion": 0,
+    "data": {
+      "id": "0ae1733e-7538-4908-b90a-5721670cb005",
+      "amount": 105,
+      "currency": "USD",
+      "direction": "outbound",
+      "gateway": "dinopay",
+      "customerId": "2432318c-4ff3-4ac0-b734-9b61779e2e46",
+      "externalId": "EXTERNAL-ID-05",
+      "status": "pending",
+      "debtor": {
+        "institutionName": "Lemon Cash",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0003252627188236545234"
+          }
+        }
+      },
+      "beneficiary": {
+        "institutionName": "LetsBit",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0004252627182736545234"
+          }
+        }
+      },
+      "createdAt": "2024-10-15T00:00:00Z",
+      "updatedAt": "2024-10-15T00:00:00Z"
+    }
+  },
+  {
+    "id": "d6d01cf2-628b-4742-8dc8-6b578fe18106",
+    "type": "PaymentCreated",
+    "aggregateVersion": 0,
+    "data": {
+      "id": "0ae1733e-7538-4908-b90a-5721670cb006",
+      "amount": 106,
+      "currency": "USD",
+      "direction": "outbound",
+      "gateway": "dinopay",
+      "customerId": "2432318c-4ff3-4ac0-b734-9b61779e2e46",
+      "externalId": "EXTERNAL-ID-06",
+      "status": "pending",
+      "debtor": {
+        "institutionName": "Lemon Cash",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0003252627188236545234"
+          }
+        }
+      },
+      "beneficiary": {
+        "institutionName": "LetsBit",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0004252627182736545234"
+          }
+        }
+      },
+      "createdAt": "2024-10-16T00:00:00Z",
+      "updatedAt": "2024-10-16T00:00:00Z"
+    }
+  },
+  {
+    "id": "d6d01cf2-628b-4742-8dc8-6b578fe18107",
+    "type": "PaymentCreated",
+    "aggregateVersion": 0,
+    "data": {
+      "id": "0ae1733e-7538-4908-b90a-5721670cb007",
+      "amount": 107,
+      "currency": "USD",
+      "direction": "outbound",
+      "gateway": "dinopay",
+      "customerId": "2432318c-4ff3-4ac0-b734-9b61779e2e46",
+      "externalId": "EXTERNAL-ID-07",
+      "status": "pending",
+      "debtor": {
+        "institutionName": "Lemon Cash",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0003252627188236545234"
+          }
+        }
+      },
+      "beneficiary": {
+        "institutionName": "LetsBit",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0004252627182736545234"
+          }
+        }
+      },
+      "createdAt": "2024-10-17T00:00:00Z",
+      "updatedAt": "2024-10-17T00:00:00Z"
+    }
+  },
+  {
+    "id": "d6d01cf2-628b-4742-8dc8-6b578fe18108",
+    "type": "PaymentCreated",
+    "aggregateVersion": 0,
+    "data": {
+      "id": "0ae1733e-7538-4908-b90a-5721670cb008",
+      "amount": 108,
+      "currency": "USD",
+      "direction": "outbound",
+      "gateway": "dinopay",
+      "customerId": "2432318c-4ff3-4ac0-b734-9b61779e2e46",
+      "externalId": "EXTERNAL-ID-08",
+      "status": "pending",
+      "debtor": {
+        "institutionName": "Lemon Cash",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0003252627188236545234"
+          }
+        }
+      },
+      "beneficiary": {
+        "institutionName": "LetsBit",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0004252627182736545234"
+          }
+        }
+      },
+      "createdAt": "2024-10-18T00:00:00Z",
+      "updatedAt": "2024-10-18T00:00:00Z"
+    }
+  },
+  {
+    "id": "d6d01cf2-628b-4742-8dc8-6b578fe18109",
+    "type": "PaymentCreated",
+    "aggregateVersion": 0,
+    "data": {
+      "id": "0ae1733e-7538-4908-b90a-5721670cb009",
+      "amount": 109,
+      "currency": "USD",
+      "direction": "outbound",
+      "gateway": "dinopay",
+      "customerId": "2432318c-4ff3-4ac0-b734-9b61779e2e46",
+      "externalId": "EXTERNAL-ID-09",
+      "status": "pending",
+      "debtor": {
+        "institutionName": "Lemon Cash",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0003252627188236545234"
+          }
+        }
+      },
+      "beneficiary": {
+        "institutionName": "LetsBit",
+        "currency": "USD",
+        "accountDetails": {
+          "accountType": "cvu",
+          "cuit": "23112223339",
+          "routingInfo": {
+            "cvuRoutingInfoType": "cvu",
+            "cvu": "0004252627182736545234"
+          }
+        }
+      },
+      "createdAt": "2024-10-19T00:00:00Z",
+      "updatedAt": "2024-10-19T00:00:00Z"
+    }
+  }
+]

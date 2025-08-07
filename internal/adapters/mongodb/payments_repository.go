@@ -126,6 +126,9 @@ func (p *PaymentsRepository) SearchPayments(ctx context.Context, listPaymentsPar
     if listPaymentsParams.SchemeId.IsSet() {
         filter["data.schemeId"] = listPaymentsParams.SchemeId.Value
     }
+    if listPaymentsParams.Amount.IsSet() {
+        filter["data.amount"] = listPaymentsParams.Amount.Value
+    }
     if listPaymentsParams.DateFrom.IsSet() || listPaymentsParams.DateTo.IsSet() {
         dateFilter := bson.M{}
         if listPaymentsParams.DateFrom.IsSet() {

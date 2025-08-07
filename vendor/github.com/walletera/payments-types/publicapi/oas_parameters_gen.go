@@ -101,6 +101,8 @@ type ListPaymentsParams struct {
 	ExternalId OptString
 	// Filter by scheme or clearing institution Id.
 	SchemeId OptString
+	// Filter by payment amount.
+	Amount OptFloat64
 	// Number of payments to return (pagination).
 	Limit OptInt
 	// Offset for pagination.
@@ -178,6 +180,15 @@ func unpackListPaymentsParams(packed middleware.Parameters) (params ListPayments
 		}
 		if v, ok := packed[key]; ok {
 			params.SchemeId = v.(OptString)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "amount",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Amount = v.(OptFloat64)
 		}
 	}
 	{
@@ -557,6 +568,62 @@ func decodeListPaymentsParams(args [0]string, argsEscaped bool, r *http.Request)
 	}(); err != nil {
 		return params, &ogenerrors.DecodeParamError{
 			Name: "schemeId",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: amount.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "amount",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotAmountVal float64
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToFloat64(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotAmountVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Amount.SetTo(paramsDotAmountVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+			if err := func() error {
+				if value, ok := params.Amount.Get(); ok {
+					if err := func() error {
+						if err := (validate.Float{}).Validate(float64(value)); err != nil {
+							return errors.Wrap(err, "float")
+						}
+						return nil
+					}(); err != nil {
+						return err
+					}
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "amount",
 			In:   "query",
 			Err:  err,
 		}

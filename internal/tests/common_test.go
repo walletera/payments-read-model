@@ -121,6 +121,10 @@ func anEvent(ctx context.Context, eventJsonFilePath *godog.DocString) (context.C
         return ctx, fmt.Errorf("error reading event JSON file: %w", err)
     }
 
+    return deserializeAndAddtoContext(ctx, rawEvent)
+}
+
+func deserializeAndAddtoContext(ctx context.Context, rawEvent []byte) (context.Context, error) {
     logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
     deserializer := paymentsevents.NewDeserializer(logger)
     deserializedEvent, err := deserializer.Deserialize(rawEvent)

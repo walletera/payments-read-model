@@ -383,6 +383,10 @@ func (s *Server) handleListPaymentsRequest(args [0]string, argsEscaped bool, w h
 					In:   "query",
 				}: params.SchemeId,
 				{
+					Name: "amount",
+					In:   "query",
+				}: params.Amount,
+				{
 					Name: "limit",
 					In:   "query",
 				}: params.Limit,

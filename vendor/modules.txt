@@ -49,9 +49,6 @@ github.com/cucumber/godog/internal/utils
 # github.com/cucumber/messages/go/v21 v21.0.1
 ## explicit; go 1.19
 github.com/cucumber/messages/go/v21
-# github.com/davecgh/go-spew v1.1.1
-## explicit
-github.com/davecgh/go-spew/spew
 # github.com/distribution/reference v0.5.0
 ## explicit; go 1.20
 github.com/distribution/reference
@@ -135,9 +132,6 @@ github.com/gofrs/uuid
 # github.com/gogo/protobuf v1.3.2
 ## explicit; go 1.15
 github.com/gogo/protobuf/proto
-# github.com/golang-jwt/jwt v3.2.2+incompatible
-## explicit
-github.com/golang-jwt/jwt
 # github.com/golang/snappy v1.0.0
 ## explicit
 github.com/golang/snappy
@@ -220,9 +214,6 @@ github.com/opencontainers/image-spec/specs-go/v1
 # github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
-# github.com/pmezard/go-difflib v1.0.0
-## explicit
-github.com/pmezard/go-difflib/difflib
 # github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c
 ## explicit; go 1.14
 github.com/power-devops/perfstat
@@ -255,10 +246,6 @@ github.com/sirupsen/logrus
 # github.com/spf13/pflag v1.0.5
 ## explicit; go 1.12
 github.com/spf13/pflag
-# github.com/stretchr/testify v1.9.0
-## explicit; go 1.17
-github.com/stretchr/testify/assert
-github.com/stretchr/testify/require
 # github.com/testcontainers/testcontainers-go v0.30.0
 ## explicit; go 1.21
 github.com/testcontainers/testcontainers-go
@@ -278,7 +265,7 @@ github.com/tklauser/numcpus
 github.com/walletera/eventskit/events
 github.com/walletera/eventskit/messages
 github.com/walletera/eventskit/rabbitmq
-# github.com/walletera/logs-watcher v0.0.4
+# github.com/walletera/logs-watcher v0.0.4 => /home/fedev/Code/walletera/logs-watcher
 ## explicit; go 1.20
 github.com/walletera/logs-watcher/newline
 github.com/walletera/logs-watcher/slog
@@ -497,7 +484,5 @@ google.golang.org/protobuf/types/known/anypb
 # gopkg.in/yaml.v2 v2.4.0
 ## explicit; go 1.15
 gopkg.in/yaml.v2
-# gopkg.in/yaml.v3 v3.0.1
-## explicit
-gopkg.in/yaml.v3
+# github.com/walletera/logs-watcher => /home/fedev/Code/walletera/logs-watcher
 # github.com/walletera/payments-types => /home/fedev/Code/walletera/payments-types
