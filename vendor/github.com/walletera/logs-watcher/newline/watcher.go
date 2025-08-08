@@ -2,17 +2,15 @@ package newline
 
 import (
     "context"
-    "fmt"
     "strings"
-    "sync"
     "sync/atomic"
     "time"
 )
 
 type Watcher struct {
     lines                           []string
-    linesMutex                      sync.RWMutex
     newLinesCh                      chan string
+    newLinesChSize                  int
     newLinesSubscriptionIdGenerator atomic.Int64
     newLinesSubscriptionCh          chan *newLinesSubscription
     deleteNewLinesSubscriptionCh    chan *newLinesSubscription
@@ -24,14 +22,18 @@ type newLinesSubscription struct {
     newLinesCh chan string
 }
 
-func NewWatcher() *Watcher {
-
+func NewWatcher(configs ...Config) *Watcher {
     w := &Watcher{
         lines:                        make([]string, 0),
         newLinesCh:                   make(chan string),
+        newLinesChSize:               100,
         newLinesSubscriptionCh:       make(chan *newLinesSubscription),
         deleteNewLinesSubscriptionCh: make(chan *newLinesSubscription),
         stop:                         make(chan bool),
+    }
+
+    for _, config := range configs {
+        config(w)
     }
 
     go w.startControlLoop()
@@ -43,13 +45,13 @@ func (w *Watcher) AddLogLine(logLine string) {
 }
 
 func (w *Watcher) WaitForNTimes(keyword string, timeout time.Duration, n int) bool {
-    newLinesCh := make(chan string)
+    newLinesCh := make(chan string, w.newLinesChSize)
+    subscription := w.subscribeForNewLines(newLinesCh)
     foundLineChSize := 1
     if n > 1 {
         foundLineChSize = n
     }
     foundLineCh := make(chan bool, foundLineChSize)
-    subscription := w.subscribeForNewLines(newLinesCh)
     ctx, cancel := context.WithTimeout(context.Background(), timeout)
     go w.searchInNewLines(ctx, subscription, keyword, foundLineCh)
     go w.searchInStoredLines(ctx, keyword, foundLineCh)
@@ -72,14 +74,17 @@ func (w *Watcher) startControlLoop() {
     newLinesSubscriptions := make(map[int64]*newLinesSubscription)
     for {
         select {
-        case newLine := <-w.newLinesCh:
+        case newLine, ok := <-w.newLinesCh:
+            if !ok {
+                return
+            }
             w.storeNewLine(newLine)
             w.broadcastNewLine(newLine, newLinesSubscriptions)
         case subscription := <-w.newLinesSubscriptionCh:
             newLinesSubscriptions[subscription.id] = subscription
         case subscription := <-w.deleteNewLinesSubscriptionCh:
-            close(subscription.newLinesCh)
             delete(newLinesSubscriptions, subscription.id)
+            close(subscription.newLinesCh)
         case <-w.stop:
             return
         }
@@ -95,8 +100,8 @@ func (w *Watcher) broadcastNewLine(line string, newLinesSubscriptions map[int64]
         select {
         case subscription.newLinesCh <- line:
         default:
-            fmt.Printf("WARNING: subscription id %d is not receiving new lines anymore.\n", subscription.id)
         }
+
     }
 }
 

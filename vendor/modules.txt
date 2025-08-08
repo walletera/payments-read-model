@@ -265,11 +265,12 @@ github.com/tklauser/numcpus
 github.com/walletera/eventskit/events
 github.com/walletera/eventskit/messages
 github.com/walletera/eventskit/rabbitmq
-# github.com/walletera/logs-watcher v0.0.4 => /home/fedev/Code/walletera/logs-watcher
+# github.com/walletera/logs-watcher v0.0.5
 ## explicit; go 1.20
+github.com/walletera/logs-watcher
 github.com/walletera/logs-watcher/newline
 github.com/walletera/logs-watcher/slog
-# github.com/walletera/payments-types v0.0.18 => /home/fedev/Code/walletera/payments-types
+# github.com/walletera/payments-types v0.0.19
 ## explicit; go 1.22.4
 github.com/walletera/payments-types/converters/privateapi
 github.com/walletera/payments-types/events
@@ -484,5 +485,3 @@ google.golang.org/protobuf/types/known/anypb
 # gopkg.in/yaml.v2 v2.4.0
 ## explicit; go 1.15
 gopkg.in/yaml.v2
-# github.com/walletera/logs-watcher => /home/fedev/Code/walletera/logs-watcher
-# github.com/walletera/payments-types => /home/fedev/Code/walletera/payments-types
