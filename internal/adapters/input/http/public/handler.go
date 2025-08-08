@@ -5,10 +5,12 @@ import (
     "log/slog"
 
     "payments-read-model/internal/domain/payments"
+    "payments-read-model/pkg/logattr"
 
     privconv "github.com/walletera/payments-types/converters/privateapi"
     "github.com/walletera/payments-types/privateapi"
     "github.com/walletera/payments-types/publicapi"
+    "github.com/walletera/werrors"
 )
 
 type Handler struct {
@@ -27,22 +29,46 @@ func (h Handler) PostPayment(ctx context.Context, req *publicapi.PostPaymentReq,
 }
 
 func (h Handler) GetPayment(ctx context.Context, params publicapi.GetPaymentParams) (publicapi.GetPaymentRes, error) {
-    //TODO implement me
-    panic("implement me")
+    payment, err := h.repository.GetPayment(ctx, params.PaymentId)
+    if err != nil {
+        switch err.Code() {
+        case werrors.ResourceNotFoundErrorCode:
+            return &publicapi.GetPaymentNotFound{}, nil
+        default:
+            h.logger.Error(
+                "failed getting payment",
+                logattr.Error(err.Error()),
+                logattr.PaymentId(params.PaymentId.String()),
+            )
+            return &publicapi.GetPaymentInternalServerError{}, nil
+        }
+    }
+
+    return buildPublicPaymentFromPrivatePayment(payment.Data), nil
 }
 
 func (h Handler) ListPayments(ctx context.Context, params publicapi.ListPaymentsParams) (publicapi.ListPaymentsRes, error) {
     result, err := h.repository.SearchPayments(ctx, params)
     if err != nil {
-        // TODO handle error
-        panic(err)
+        h.logger.Error(
+            "failed listing payments",
+            logattr.Error(err.Error()),
+        )
+        return &publicapi.ListPaymentsInternalServerError{
+            ErrorMessage: "unexpected internal error",
+        }, nil
     }
     var paymentsList []publicapi.Payment
     for {
         ok, payment, err := result.Iterator.Next()
         if err != nil {
-            // TODO handle error
-            panic(err)
+            h.logger.Error(
+                "failed listing payments",
+                logattr.Error(err.Error()),
+            )
+            return &publicapi.ListPaymentsInternalServerError{
+                ErrorMessage: "unexpected internal error",
+            }, nil
         }
         if !ok {
             break

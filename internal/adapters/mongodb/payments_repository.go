@@ -2,6 +2,7 @@ package mongodb
 
 import (
     "context"
+    "errors"
 
     "payments-read-model/internal/domain/payments"
 
@@ -31,8 +32,25 @@ func NewPaymentsRepository(client *mongo.Client, dbName string, collectionName s
 }
 
 func (p *PaymentsRepository) GetPayment(ctx context.Context, id uuid.UUID) (payments.Payment, werrors.WError) {
-    //TODO implement me
-    panic("implement me")
+    coll := p.client.Database(p.dbName).Collection(p.collectionName)
+    result := coll.FindOne(ctx, bson.M{"_id": id})
+    if err := result.Err(); err != nil {
+        if errors.Is(err, mongo.ErrNoDocuments) {
+            return payments.Payment{}, werrors.NewResourceNotFoundError("payment not found")
+        }
+        return payments.Payment{}, werrors.NewRetryableInternalError("failed to find payment: %s", err.Error())
+    }
+
+    var paymentBSON PaymentBSON
+    if err := result.Decode(&paymentBSON); err != nil {
+        return payments.Payment{}, werrors.NewNonRetryableInternalError("failed to decode payment: %s", err.Error())
+    }
+
+    return payments.Payment{
+        ID:               paymentBSON.ID,
+        AggregateVersion: paymentBSON.AggregateVersion,
+        Data:             paymentBSON.Data,
+    }, nil
 }
 
 func (p *PaymentsRepository) SavePayment(ctx context.Context, payment payments.Payment) werrors.WError {
