@@ -8,10 +8,10 @@ import (
     "net/http"
     "time"
 
-    "payments-read-model/internal/adapters/input/http/public"
-    "payments-read-model/internal/adapters/mongodb"
-    "payments-read-model/internal/domain/payments"
-    "payments-read-model/pkg/logattr"
+    "github.com/walletera/payments-read-model/internal/adapters/input/http/public"
+    "github.com/walletera/payments-read-model/internal/adapters/mongodb"
+    "github.com/walletera/payments-read-model/internal/domain/payments"
+    "github.com/walletera/payments-read-model/pkg/logattr"
 
     "github.com/walletera/eventskit/messages"
     "github.com/walletera/eventskit/rabbitmq"
@@ -37,6 +37,7 @@ type App struct {
     rabbitmqPort      int
     rabbitmqUser      string
     rabbitmqPassword  string
+    mongodbURL        string
     mongoClient       *mongo.Client
     publicAPIConfig   Optional[PublicAPIConfig]
     logHandler        slog.Handler
@@ -149,11 +150,9 @@ func createPaymentsMessageProcessor(app *App) (*messages.Processor[paymentsevent
         return nil, fmt.Errorf("creating rabbitmq client: %w", err)
     }
 
-    MongodbUri := "mongodb://localhost:27017/?retryWrites=true&w=majority"
-
     // Use the SetServerAPIOptions() method to set the Stable API version to 1
     serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-    opts := options.Client().ApplyURI(MongodbUri).SetServerAPIOptions(serverAPI)
+    opts := options.Client().ApplyURI(app.mongodbURL).SetServerAPIOptions(serverAPI)
 
     // Create a new client and connect to the server
     client, err := mongo.Connect(opts)

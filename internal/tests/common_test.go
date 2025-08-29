@@ -7,8 +7,8 @@ import (
     "os"
     "time"
 
-    "payments-read-model/internal/app"
-    "payments-read-model/internal/tests/httpauth"
+    "github.com/walletera/payments-read-model/internal/app"
+    "github.com/walletera/payments-read-model/internal/tests/httpauth"
 
     "github.com/cucumber/godog"
     "github.com/walletera/eventskit/events"
@@ -31,6 +31,7 @@ const (
     deserializedEventKey      = "deserializedEvent"
     logsWatcherWaitForTimeout = 5 * time.Second
     publicApiHttpServerPort   = 8484
+    mongodbURL                = "mongodb://localhost:27017/?retryWrites=true&w=majority"
 )
 
 var mongodbClient *mongo.Client
@@ -87,6 +88,7 @@ func aRunningPaymentsReadModel(ctx context.Context) (context.Context, error) {
         app.WithRabbitmqPort(rabbitmq.DefaultPort),
         app.WithRabbitmqUser(rabbitmq.DefaultUser),
         app.WithRabbitmqPassword(rabbitmq.DefaultPassword),
+        app.WithMongoDBURL(mongodbURL),
         app.WithLogHandler(logHandler),
     )
     if err != nil {

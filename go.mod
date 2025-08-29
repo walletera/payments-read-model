@@ -1,4 +1,4 @@
-module payments-read-model
+module github.com/walletera/payments-read-model
 
 go 1.23
 

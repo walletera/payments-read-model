@@ -4,7 +4,7 @@ import (
     "context"
     "errors"
 
-    "payments-read-model/internal/domain/payments"
+    "github.com/walletera/payments-read-model/internal/domain/payments"
 
     "github.com/google/uuid"
     "github.com/walletera/payments-types/privateapi"

@@ -4,8 +4,8 @@ import (
     "context"
     "log/slog"
 
-    "payments-read-model/internal/domain/payments"
-    "payments-read-model/pkg/logattr"
+    "github.com/walletera/payments-read-model/internal/domain/payments"
+    "github.com/walletera/payments-read-model/pkg/logattr"
 
     privconv "github.com/walletera/payments-types/converters/privateapi"
     "github.com/walletera/payments-types/privateapi"

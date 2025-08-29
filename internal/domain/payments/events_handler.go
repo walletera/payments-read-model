@@ -4,7 +4,7 @@ import (
     "context"
     "log/slog"
 
-    "payments-read-model/pkg/logattr"
+    "github.com/walletera/payments-read-model/pkg/logattr"
 
     "github.com/walletera/payments-types/events"
     "github.com/walletera/werrors"

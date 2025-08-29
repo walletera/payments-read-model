@@ -3,7 +3,7 @@ package mongodb
 import (
     "context"
 
-    "payments-read-model/internal/domain/payments"
+    "github.com/walletera/payments-read-model/internal/domain/payments"
 
     "go.mongodb.org/mongo-driver/v2/mongo"
 )
