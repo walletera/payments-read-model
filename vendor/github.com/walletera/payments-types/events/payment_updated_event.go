@@ -30,7 +30,19 @@ type PaymentUpdated struct {
     Data             api.PaymentUpdate `json:"-"`
 }
 
-func NewPaymentUpdated(eventEnvelope events.EventEnvelope, data api.PaymentUpdate) PaymentUpdated {
+func NewPaymentUpdated(correlationId string, data api.PaymentUpdate) PaymentUpdated {
+    return PaymentUpdated{
+        Id:                    uuid.New(),
+        EventType:             PaymentUpdatedType,
+        EventAggregateVersion: 0,
+        EventCorrelationId:    correlationId,
+        EventCreatedAt:        time.Now(),
+        SerializableData:      wogen.NewSerializationWrapper(&data),
+        Data:                  data,
+    }
+}
+
+func PaymentUpdatedFromEnvelope(eventEnvelope events.EventEnvelope, data api.PaymentUpdate) PaymentUpdated {
     return PaymentUpdated{
         Id:                    eventEnvelope.Id,
         EventType:             eventEnvelope.Type,
