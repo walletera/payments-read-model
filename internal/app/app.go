@@ -29,6 +29,7 @@ const (
     RabbitMQPaymentsExchangeName     = "payments.events"
     RabbitMQExchangeType             = "topic"
     RabbitMQPaymentCreatedRoutingKey = "payment.created"
+    RabbitMQPaymentUpdatedRoutingKey = "payment.updated"
     RabbitMQQueueName                = "payments-read-model"
 )
 
@@ -143,7 +144,7 @@ func createPaymentsMessageProcessor(app *App) (*messages.Processor[paymentsevent
         rabbitmq.WithPassword(app.rabbitmqPassword),
         rabbitmq.WithExchangeName(RabbitMQPaymentsExchangeName),
         rabbitmq.WithExchangeType(RabbitMQExchangeType),
-        rabbitmq.WithConsumerRoutingKeys(RabbitMQPaymentCreatedRoutingKey),
+        rabbitmq.WithConsumerRoutingKeys(RabbitMQPaymentCreatedRoutingKey, RabbitMQPaymentUpdatedRoutingKey),
         rabbitmq.WithQueueName(queueName),
     )
     if err != nil {

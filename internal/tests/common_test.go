@@ -146,13 +146,23 @@ func theEventIsPublished(ctx context.Context) (context.Context, error) {
         return nil, fmt.Errorf("error creating rabbitmq client: %s", err.Error())
     }
 
+    var routingKey string
+    deserializedEvent := ctx.Value(deserializedEventKey)
+    switch deserializedEvent.(type) {
+    case paymentsevents.PaymentCreated:
+        routingKey = app.RabbitMQPaymentCreatedRoutingKey
+    case paymentsevents.PaymentUpdated:
+        routingKey = app.RabbitMQPaymentUpdatedRoutingKey
+    default:
+        return ctx, fmt.Errorf("unsupported event type: %T", deserializedEvent)
+    }
     rawEvent := ctx.Value(rawEventKey).([]byte)
     err = publisher.Publish(ctx, publishable{rawEvent: rawEvent}, events.RoutingInfo{
         Topic:      app.RabbitMQPaymentsExchangeName,
-        RoutingKey: app.RabbitMQPaymentCreatedRoutingKey,
+        RoutingKey: routingKey,
     })
     if err != nil {
-        return nil, fmt.Errorf("error publishing WithdrawalCreated event to rabbitmq: %s", err.Error())
+        return ctx, fmt.Errorf("error publishing WithdrawalCreated event to rabbitmq: %s", err.Error())
     }
 
     return ctx, nil
