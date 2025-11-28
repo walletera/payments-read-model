@@ -88,6 +88,7 @@ jobs:
         with:
           tag: ${{ steps.version.outputs.next_version }}
           name: Release ${{ steps.version.outputs.next_version }}
+          skipIfReleaseExists: true
           body: |
             Automated release created by CI.
             Docker image pushed to Docker Hub:
