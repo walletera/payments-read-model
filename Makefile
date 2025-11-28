@@ -1,2 +1,2 @@
-test-all:
+test_all:
 	go test -count=1 -v ./...

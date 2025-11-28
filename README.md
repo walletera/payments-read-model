@@ -1,5 +1,5 @@
 # Payments Read Model
-[![Go](https://github.com/walletera/payments-read-model/actions/workflows/go.yml/badge.svg)](https://github.com/walletera/payments-read-model/actions/workflows/go.yml)
+[![Go](https://github.com/walletera/payments-read-model/actions/workflows/go.yml/badge.svg)](https://github.com/walletera/payments-read-model/actions/workflows/release.yml)
 
 ## Overview
 **Payments Read Model** is a Go application designed to build and maintain a MongoDB-based read-model for payment data. It consumes events from a RabbitMQ event stream, processes event-based updates using event sourcing patterns, and persists the current state of payments in a form optimized for querying.
