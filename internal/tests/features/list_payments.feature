@@ -15,3 +15,4 @@ Feature: list payments
       | filters                     | expectedPaymentIds                                                                                                      |
       | ?status=confirmed           | ["0ae1733e-7538-4908-b90a-5721670cb000","0ae1733e-7538-4908-b90a-5721670cb001", "0ae1733e-7538-4908-b90a-5721670cb002"] |
       | ?status=rejected&amount=101 | ["0ae1733e-7538-4908-b90a-5721670cb004"]                                                                                |
+      | ?externalId=EXTERNAL-ID-03  | ["0ae1733e-7538-4908-b90a-5721670cb003"]                                                                                |
