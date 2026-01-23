@@ -17,7 +17,6 @@ import (
 	"github.com/walletera/eventskit/rabbitmq"
 	paymentsevents "github.com/walletera/payments-types/events"
 	"github.com/walletera/payments-types/publicapi"
-	"github.com/walletera/werrors"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 	"go.uber.org/zap"
@@ -175,21 +174,9 @@ func createPaymentsMessageProcessor(app *App) (*messages.Processor[paymentsevent
 		rabbitMQClient,
 		paymentsevents.NewDeserializer(app.logger),
 		paymentEventsHandler,
-		withErrorCallback(
-			app.logger.With(
-				logattr.Component("payments.rabbitmq.MessageProcessor")),
-		),
 	)
 
 	return paymentsMessageProcessor, nil
-}
-
-func withErrorCallback(logger *slog.Logger) messages.ProcessorOpt {
-	return messages.WithErrorCallback(func(wError werrors.WError) {
-		logger.Error(
-			"failed processing message",
-			logattr.Error(wError.Message()))
-	})
 }
 
 func (app *App) startPublicAPIHTTPServer(appLogger *slog.Logger) (*http.Server, error) {
