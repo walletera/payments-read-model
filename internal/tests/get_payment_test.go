@@ -42,6 +42,7 @@ func InitializeGetPaymentFeature(ctx *godog.ScenarioContext) {
     ctx.Then(`^payment id (.+)$`, theReturnedPaymentIdIs)
     ctx.Then(`^external id (.+)$`, theReturnedPaymentExternalIdIs)
     ctx.Then(`^status (.+)$`, theReturnedPaymentStatusIs)
+    ctx.Then(`^customer id (.+)$`, theReturnedCustomerIdIs)
     ctx.After(afterScenarioHook)
 }
 
@@ -128,6 +129,17 @@ func theReturnedPaymentStatusIs(ctx context.Context, status string) error {
     payment := getPaymentFromCtx(ctx)
     if string(payment.Status) != status {
         return fmt.Errorf("expected payment status to be %s, but got %s", status, string(payment.Status))
+    }
+    return nil
+}
+
+func theReturnedCustomerIdIs(ctx context.Context, customerId string) error {
+    if getResponseStatusCodeFromCtx(ctx) != http.StatusOK {
+        return nil
+    }
+    payment := getPaymentFromCtx(ctx)
+    if payment.CustomerId.String() != customerId {
+        return fmt.Errorf("expected customerID to be %s, but got %s", customerId, payment.CustomerId.String())
     }
     return nil
 }

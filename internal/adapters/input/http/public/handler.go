@@ -87,6 +87,7 @@ func (h Handler) ListPayments(ctx context.Context, params publicapi.ListPayments
 func buildPublicPaymentFromPrivatePayment(p privateapi.Payment) *publicapi.Payment {
     return &publicapi.Payment{
         ID:          p.ID,
+        CustomerId:  p.CustomerId,
         Amount:      p.Amount,
         Currency:    publicapi.Currency(p.Currency),
         Debtor:      privconv.Convert(p.Debtor),

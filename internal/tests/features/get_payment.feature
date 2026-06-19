@@ -13,9 +13,10 @@ Feature: Get Payment by Id
     And payment id <responsePaymentId>
     And external id <externalId>
     And status <status>
+    And customer id <customerId>
 
     Examples:
-      | paymentId                            | statusCode | responsePaymentId                    | externalId     | status   |
-      | 0ae1733e-7538-4908-b90a-5721670cb004 | 200        | 0ae1733e-7538-4908-b90a-5721670cb004 | EXTERNAL-ID-04 | rejected |
-      | 39947bb3-47ec-4f91-9ddf-74cde04085c4 | 404        | -                                    | -              | -        |
-      | xxxxxxxx-7538-4908-b90a-yyyyyyyyyyyy | 400        | -                                    | -              | -        |
+      | paymentId                            | statusCode | responsePaymentId                    | externalId     | status   | customerId                           |
+      | 0ae1733e-7538-4908-b90a-5721670cb004 | 200        | 0ae1733e-7538-4908-b90a-5721670cb004 | EXTERNAL-ID-04 | rejected | 2432318c-4ff3-4ac0-b734-9b61779e2e46 |
+      | 39947bb3-47ec-4f91-9ddf-74cde04085c4 | 404        | -                                    | -              | -        | -                                    |
+      | xxxxxxxx-7538-4908-b90a-yyyyyyyyyyyy | 400        | -                                    | -              | -        | -                                    |
